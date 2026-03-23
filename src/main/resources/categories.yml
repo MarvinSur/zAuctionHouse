@@ -44,7 +44,7 @@ settings:
   # Display name for the "All" category (shows all items regardless of type).
   # This category always exists and shows every listed item.
   # Supports MiniMessage formatting and hex colors.
-  all-category-name: "#0c1719Auction House"
+  all-category-name: "Auction House"
 
 #=============================================================================
 # CATEGORY DEFINITIONS
@@ -64,7 +64,7 @@ settings:
 
 blocks:
   # Display name shown in the categories inventory.
-  display-name: "#0c1719Blocks"
+  display-name: "Blocks"
 
   # Rules to match items for this category.
   # An item matching ANY rule will appear in this category.
@@ -82,7 +82,7 @@ blocks:
 # Contains combat weapons: swords, bows, crossbows, tridents.
 
 weapons:
-  display-name: "#0c1719Weapons"
+  display-name: "Weapons"
 
   rules:
     # Match all sword types by suffix.
@@ -106,7 +106,7 @@ weapons:
 # Contains protective equipment: helmets, chestplates, leggings, boots, shields.
 
 armor:
-  display-name: "#0c1719Armor"
+  display-name: "Armor"
 
   rules:
     # Match standard armor pieces by suffix.
@@ -131,7 +131,7 @@ armor:
 # Contains utility tools: pickaxes, axes, shovels, hoes, and misc tools.
 
 tools:
-  display-name: "#0c1719Tools"
+  display-name: "Tools"
 
   rules:
     # Match standard tools by suffix.
@@ -156,7 +156,7 @@ tools:
 # Contains food and potions that can be consumed.
 
 consumables:
-  display-name: "#0c1719Consumables"
+  display-name: "Consumables"
 
   rules:
     # Match potions and valuable food items specifically.
@@ -187,7 +187,7 @@ consumables:
 # Contains ores, ingots, and crafting materials.
 
 resources:
-  display-name: "#0c1719Resources"
+  display-name: "Resources"
 
   rules:
     # Match valuable crafting resources.
@@ -218,7 +218,7 @@ resources:
 # Enchanted books are commonly traded items on auction houses.
 
 enchanted-books:
-  display-name: "#0c1719Enchanted Books"
+  display-name: "Enchanted Books"
 
   rules:
     # Match enchanted books only.
@@ -238,7 +238,7 @@ enchanted-books:
 # Items not matching any other category will appear here.
 
 misc:
-  display-name: "#0c1719Miscellaneous"
+  display-name: "Miscellaneous"
   # No rules defined = fallback category for unmatched items.
   # Any item that doesn't match weapons, armor, tools, etc. goes here.
 

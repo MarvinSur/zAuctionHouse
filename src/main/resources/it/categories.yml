@@ -44,7 +44,7 @@ settings:
   # Nome di visualizzazione per la categoria "Tutti" (mostra tutti gli oggetti qualsiasi sia il tipo).
   # Questa categoria esiste sempre e mostra tutti gli oggetti elencati.
   # Supporta la formattazione MiniMessage e i colori hex.
-  all-category-name: "#0c1719Casa d'aste"
+  all-category-name: "Casa d'aste"
 
 #=============================================================================
 # DEFINIZIONI DELLE CATEGORIE
@@ -64,7 +64,7 @@ settings:
 
 blocks:
   # Nome di visualizzazione mostrato nell'inventario delle categorie.
-  display-name: "#0c1719Blocchi"
+  display-name: "Blocchi"
 
   # Regole per far corrispondere gli oggetti a questa categoria.
   # Un oggetto che corrisponde a QUALSIASI regola apparirà in questa categoria.
@@ -82,7 +82,7 @@ blocks:
 # Contiene le armi da combattimento: spade, archi, balestre, tridenti.
 
 weapons:
-  display-name: "#0c1719Armi"
+  display-name: "Armi"
 
   rules:
     # Far corrispondere tutti i tipi di spade per suffisso.
@@ -106,7 +106,7 @@ weapons:
 # Contiene l'equipaggiamento protettivo: elmi, corazze, gambali, stivali, scudi.
 
 armor:
-  display-name: "#0c1719Armature"
+  display-name: "Armature"
 
   rules:
     # Far corrispondere i pezzi di armatura standard per suffisso.
@@ -131,7 +131,7 @@ armor:
 # Contiene strumenti utilitari: picconi, asce, pale, zappe, e strumenti vari.
 
 tools:
-  display-name: "#0c1719Strumenti"
+  display-name: "Strumenti"
 
   rules:
     # Far corrispondere gli strumenti standard per suffisso.
@@ -156,7 +156,7 @@ tools:
 # Contiene cibo e pozioni che possono essere consumati.
 
 consumables:
-  display-name: "#0c1719Consumabili"
+  display-name: "Consumabili"
 
   rules:
     # Far corrispondere pozioni e oggetti alimentari di valore specificamente.
@@ -187,7 +187,7 @@ consumables:
 # Contiene minerali, lingotti e materiali per il crafting.
 
 resources:
-  display-name: "#0c1719Risorse"
+  display-name: "Risorse"
 
   rules:
     # Far corrispondere le risorse di crafting di valore.
@@ -218,7 +218,7 @@ resources:
 # I libri incantati sono oggetti comunemente scambiati nelle case d'aste.
 
 enchanted-books:
-  display-name: "#0c1719Libri incantati"
+  display-name: "Libri incantati"
 
   rules:
     # Far corrispondere solo i libri incantati.
@@ -238,7 +238,7 @@ enchanted-books:
 # Gli oggetti che non corrispondono a nessun'altra categoria appariranno qui.
 
 misc:
-  display-name: "#0c1719Varie"
+  display-name: "Varie"
   # Nessuna regola definita = categoria fallback per gli oggetti senza corrispondenza.
   # Qualsiasi oggetto che non corrisponde ad armi, armature, strumenti, ecc. va qui.
 

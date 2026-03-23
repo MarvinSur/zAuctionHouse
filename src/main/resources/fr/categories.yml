@@ -44,7 +44,7 @@ settings:
   # Nom d'affichage pour la catégorie "Tous" (affiche tous les items quel que soit le type).
   # Cette catégorie existe toujours et affiche tous les items listés.
   # Supporte le formatage MiniMessage et les couleurs hex.
-  all-category-name: "#0c1719Hôtel des ventes"
+  all-category-name: "Hôtel des ventes"
 
 #=============================================================================
 # DÉFINITIONS DES CATÉGORIES
@@ -64,7 +64,7 @@ settings:
 
 blocks:
   # Nom d'affichage montré dans l'inventaire des catégories.
-  display-name: "#0c1719Blocs"
+  display-name: "Blocs"
 
   # Règles pour faire correspondre les items à cette catégorie.
   # Un item correspondant à N'IMPORTE QUELLE règle apparaîtra dans cette catégorie.
@@ -82,7 +82,7 @@ blocks:
 # Contient les armes de combat: épées, arcs, arbalètes, tridents.
 
 weapons:
-  display-name: "#0c1719Armes"
+  display-name: "Armes"
 
   rules:
     # Faire correspondre tous les types d'épées par suffixe.
@@ -106,7 +106,7 @@ weapons:
 # Contient l'équipement de protection: casques, plastrons, jambières, bottes, boucliers.
 
 armor:
-  display-name: "#0c1719Armures"
+  display-name: "Armures"
 
   rules:
     # Faire correspondre les pièces d'armure standard par suffixe.
@@ -131,7 +131,7 @@ armor:
 # Contient les outils utilitaires: pioches, haches, pelles, houes, et outils divers.
 
 tools:
-  display-name: "#0c1719Outils"
+  display-name: "Outils"
 
   rules:
     # Faire correspondre les outils standard par suffixe.
@@ -156,7 +156,7 @@ tools:
 # Contient la nourriture et les potions qui peuvent être consommées.
 
 consumables:
-  display-name: "#0c1719Consommables"
+  display-name: "Consommables"
 
   rules:
     # Faire correspondre les potions et items de nourriture de valeur spécifiquement.
@@ -187,7 +187,7 @@ consumables:
 # Contient les minerais, lingots, et matériaux d'artisanat.
 
 resources:
-  display-name: "#0c1719Ressources"
+  display-name: "Ressources"
 
   rules:
     # Faire correspondre les ressources d'artisanat de valeur.
@@ -218,7 +218,7 @@ resources:
 # Les livres enchantés sont des items couramment échangés dans les hôtels des ventes.
 
 enchanted-books:
-  display-name: "#0c1719Livres enchantés"
+  display-name: "Livres enchantés"
 
   rules:
     # Faire correspondre uniquement les livres enchantés.
@@ -238,7 +238,7 @@ enchanted-books:
 # Les items ne correspondant à aucune autre catégorie apparaîtront ici.
 
 misc:
-  display-name: "#0c1719Divers"
+  display-name: "Divers"
   # Pas de règles définies = catégorie fallback pour les items sans correspondance.
   # Tout item ne correspondant pas à armes, armures, outils, etc. va ici.
 

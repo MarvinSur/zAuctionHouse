@@ -1,4 +1,6 @@
-# 4.0.0.3 (unreleased)
+# 4.0.0.4 (unreleased)
+
+# 4.0.0.3
 
 - **Added** `ZAUCTIONHOUSE_SELL_LIMIT` button - displays remaining sell slots visually using a list of inventory slots, configurable per item type (auction, bid, rent)
 - **Added** `%zauctionhouse_max_items_<type>%` placeholder - returns the maximum number of items a player can list for a specific type (auction, bid, rent)

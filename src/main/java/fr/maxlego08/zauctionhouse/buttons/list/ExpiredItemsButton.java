@@ -30,10 +30,12 @@ public class ExpiredItemsButton extends PaginateButton {
             return;
         }
 
-        var line = this.plugin.getConfiguration().getItemLore().expiredLore();
+        var configuration = this.plugin.getConfiguration().getItemLore();
+        var line = configuration.expiredLore();
+        var needed = configuration.expiredPlaceholders();
 
         paginate(items, inventoryEngine, (slot, item) -> {
-            inventoryEngine.addItem(slot, item.buildItemStack(player, line)).setClick(event -> {
+            inventoryEngine.addItem(slot, item.buildItemStack(player, line, needed)).setClick(event -> {
                 manager.getRemoveService().removeExpiredItem(player, item);
             });
         });

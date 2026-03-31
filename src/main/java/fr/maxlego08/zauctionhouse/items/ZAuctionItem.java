@@ -4,6 +4,7 @@ import fr.maxlego08.menu.api.utils.LoreType;
 import fr.maxlego08.menu.api.utils.Placeholders;
 import fr.maxlego08.zauctionhouse.api.AuctionPlugin;
 import fr.maxlego08.zauctionhouse.api.economy.AuctionEconomy;
+import fr.maxlego08.zauctionhouse.api.item.ItemPlaceholder;
 import fr.maxlego08.zauctionhouse.api.item.items.AuctionItem;
 import fr.maxlego08.zauctionhouse.utils.component.ComponentMessageHelper;
 import org.bukkit.entity.Player;
@@ -13,6 +14,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -33,19 +35,29 @@ public class ZAuctionItem extends ZItem implements AuctionItem {
     @Override
     public ItemStack buildItemStack(Player player) {
         var configuration = this.plugin.getConfiguration().getItemLore();
-        return this.buildItemStack(player, this.itemStacks.size() == 1 ? configuration.listedAuctionLore() : configuration.multipleListedAuctionLore());
+        boolean single = this.itemStacks.size() == 1;
+        return this.buildItemStack(player,
+                single ? configuration.listedAuctionLore() : configuration.multipleListedAuctionLore(),
+                single ? configuration.listedAuctionPlaceholders() : configuration.multipleListedAuctionPlaceholders());
     }
 
     @Override
     public ItemStack buildItemStack(Player player, List<String> lore) {
+        return buildItemStack(player, lore, ItemPlaceholder.detect(lore));
+    }
+
+    @Override
+    public ItemStack buildItemStack(Player player, List<String> lore, Set<ItemPlaceholder> needed) {
         return this.performanceDebug.measureWithContext("item.BuildItemStack", () -> {
             var meta = this.plugin.getInventoriesLoader().getInventoryManager().getMeta();
 
             var itemStack = getItemStack(player);
             var itemMeta = itemStack.getItemMeta();
 
-            Placeholders placeholders = createPlaceholders(player);
-            placeholders.register("item_count", this.itemStacks.stream().map(ItemStack::getAmount).reduce(0, Integer::sum).toString());
+            Placeholders placeholders = createPlaceholders(player, needed);
+            if (needed.contains(ItemPlaceholder.ITEM_COUNT)) {
+                placeholders.register("item_count", this.itemStacks.stream().map(ItemStack::getAmount).reduce(0, Integer::sum).toString());
+            }
 
             meta.updateLore(itemMeta, lore.stream().map(placeholders::parse).toList(), LoreType.APPEND);
             itemStack.setItemMeta(itemMeta);

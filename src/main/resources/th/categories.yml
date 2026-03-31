@@ -44,7 +44,7 @@ settings:
   # ชื่อที่แสดงสำหรับหมวด "All" (แสดงไอเท็มทั้งหมดทุกประเภท)
   # หมวดนี้มีอยู่เสมอและจะแสดงไอเท็มทุกชิ้นที่ลงขาย
   # รองรับ MiniMessage และสีแบบ hex
-  all-category-name: "#0c1719Auction House"
+  all-category-name: "Auction House"
 
 #=============================================================================
 # CATEGORY DEFINITIONS (การกำหนดหมวดหมู่)
@@ -64,7 +64,7 @@ settings:
 
 blocks:
   # ชื่อหมวดที่จะเห็นในเมนู categories
-  display-name: "#0c1719Blocks"
+  display-name: "Blocks"
 
   # กฎสำหรับแมตช์ไอเท็มเข้าในหมวดนี้
   # ไอเท็มที่ตรงกับ "กฎใดกฎหนึ่ง" จะถูกนับอยู่ในหมวดนี้
@@ -82,7 +82,7 @@ blocks:
 # รวมอาวุธโจมตี: ดาบ, คันธนู, หน้าไม้, หอก trident
 
 weapons:
-  display-name: "#0c1719Weapons"
+  display-name: "Weapons"
 
   rules:
     # แมตช์ดาบทุกประเภทด้วย suffix
@@ -106,7 +106,7 @@ weapons:
 # รวมชุดเกราะ: หมวก, เกราะ, กางเกง, รองเท้า, โล่
 
 armor:
-  display-name: "#0c1719Armor"
+  display-name: "Armor"
 
   rules:
     # แมตช์ชิ้นส่วนเกราะมาตรฐานด้วย suffix
@@ -131,7 +131,7 @@ armor:
 # รวมเครื่องมือช่วยงาน: ขวาน, จอบ, พลั่ว, เคียว ฯลฯ
 
 tools:
-  display-name: "#0c1719Tools"
+  display-name: "Tools"
 
   rules:
     # แมตช์เครื่องมือมาตรฐานด้วย suffix
@@ -156,7 +156,7 @@ tools:
 # รวมไอเท็มที่กิน/ดื่มได้ เช่น อาหารและ Potion
 
 consumables:
-  display-name: "#0c1719Consumables"
+  display-name: "Consumables"
 
   rules:
     # แมตช์ potion และอาหารมีค่าบางส่วน
@@ -186,7 +186,7 @@ consumables:
 # รวมทรัพยากร: แร่, อินก็อต และวัตถุดิบคราฟต์
 
 resources:
-  display-name: "#0c1719Resources"
+  display-name: "Resources"
 
   rules:
     # แมตช์วัตถุดิบคราฟต์ที่นิยมเทรด
@@ -217,7 +217,7 @@ resources:
 # หนังสือ Enchanted เป็นไอเท็มยอดนิยมบน auction house
 
 enchanted-books:
-  display-name: "#0c1719Enchanted Books"
+  display-name: "Enchanted Books"
 
   rules:
     # แมตช์เฉพาะ Enchanted Book
@@ -237,7 +237,7 @@ enchanted-books:
 # ไอเท็มที่ไม่ตรงกับ weapons, armor, tools ฯลฯ จะมาโผล่ในหมวดนี้
 
 misc:
-  display-name: "#0c1719Miscellaneous"
+  display-name: "Miscellaneous"
   # ไม่ต้องกำหนด rules ใด ๆ = ใช้เป็น fallback สำหรับไอเท็มที่ไม่เข้าเงื่อนไขหมวดอื่น
   # ไอเท็มที่ไม่ตรง weapons, armor, tools ฯลฯ จะมาอยู่ที่หมวดนี้
 

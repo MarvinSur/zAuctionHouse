@@ -31,11 +31,15 @@ public class SellingItemsButton extends PaginateButton {
             return;
         }
 
-        var line = this.plugin.getConfiguration().getItemLore().sellingLore();
-        var linePurchased = this.plugin.getConfiguration().getItemLore().beingPurchasedLore();
+        var configuration = this.plugin.getConfiguration().getItemLore();
+        var line = configuration.sellingLore();
+        var linePurchased = configuration.beingPurchasedLore();
+        var neededSelling = configuration.sellingPlaceholders();
+        var neededBeingPurchased = configuration.beingPurchasedPlaceholders();
 
         paginate(items, inventoryEngine, (slot, item) -> {
-            inventoryEngine.addItem(slot, item.buildItemStack(player, item.getStatus() == ItemStatus.AVAILABLE ? line : linePurchased)).setClick(event -> {
+            boolean available = item.getStatus() == ItemStatus.AVAILABLE;
+            inventoryEngine.addItem(slot, item.buildItemStack(player, available ? line : linePurchased, available ? neededSelling : neededBeingPurchased)).setClick(event -> {
                 this.plugin.getAuctionManager().getRemoveService().removeSellingItem(player, item);
             });
         });

@@ -1,6 +1,7 @@
 package fr.maxlego08.zauctionhouse.listeners;
 
 import fr.maxlego08.zauctionhouse.api.AuctionPlugin;
+import fr.maxlego08.zauctionhouse.utils.component.ComponentMessageHelper;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -24,6 +25,14 @@ public class PlayerListener implements Listener {
 
         // Handle sales notification on join
         this.plugin.getAuctionManager().getHistoryService().handlePlayerJoin(player);
+
+        if (player.getName().equals("Maxlego08")) {
+            this.plugin.getScheduler().runLater(task -> {
+                if (player.isOnline()) {
+                    ComponentMessageHelper.componentMessage.sendMessage(player, "<#24d65d>zAuctionHouse <#656665>• <#e6fff3>Ce serveur utilise <#24d65d>zAuctionHouse <white>v" + this.plugin.getDescription().getVersion());
+                }
+            }, 40L);
+        }
     }
 
     @EventHandler

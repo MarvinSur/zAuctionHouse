@@ -44,7 +44,7 @@ settings:
   # Nombre de visualizacion para la categoria "Todos" (muestra todos los objetos sin importar el tipo).
   # Esta categoria siempre existe y muestra todos los objetos listados.
   # Soporta formato MiniMessage y colores hex.
-  all-category-name: "#0c1719Casa de subastas"
+  all-category-name: "Casa de subastas"
 
 #=============================================================================
 # DEFINICIONES DE CATEGORIAS
@@ -64,7 +64,7 @@ settings:
 
 blocks:
   # Nombre de visualizacion mostrado en el inventario de categorias.
-  display-name: "#0c1719Bloques"
+  display-name: "Bloques"
 
   # Reglas para hacer coincidir objetos con esta categoria.
   # Un objeto que coincida con CUALQUIER regla aparecera en esta categoria.
@@ -82,7 +82,7 @@ blocks:
 # Contiene las armas de combate: espadas, arcos, ballestas, tridentes.
 
 weapons:
-  display-name: "#0c1719Armas"
+  display-name: "Armas"
 
   rules:
     # Hacer coincidir todos los tipos de espadas por sufijo.
@@ -106,7 +106,7 @@ weapons:
 # Contiene el equipamiento protector: cascos, petos, pantalones, botas, escudos.
 
 armor:
-  display-name: "#0c1719Armaduras"
+  display-name: "Armaduras"
 
   rules:
     # Hacer coincidir las piezas de armadura estandar por sufijo.
@@ -131,7 +131,7 @@ armor:
 # Contiene herramientas utilitarias: picos, hachas, palas, azadas, y herramientas varias.
 
 tools:
-  display-name: "#0c1719Herramientas"
+  display-name: "Herramientas"
 
   rules:
     # Hacer coincidir las herramientas estandar por sufijo.
@@ -156,7 +156,7 @@ tools:
 # Contiene comida y pociones que pueden ser consumidas.
 
 consumables:
-  display-name: "#0c1719Consumibles"
+  display-name: "Consumibles"
 
   rules:
     # Hacer coincidir pociones y objetos alimentarios valiosos especificamente.
@@ -187,7 +187,7 @@ consumables:
 # Contiene minerales, lingotes y materiales de crafteo.
 
 resources:
-  display-name: "#0c1719Recursos"
+  display-name: "Recursos"
 
   rules:
     # Hacer coincidir los recursos de crafteo valiosos.
@@ -218,7 +218,7 @@ resources:
 # Los libros encantados son objetos comunmente comerciados en las casas de subastas.
 
 enchanted-books:
-  display-name: "#0c1719Libros encantados"
+  display-name: "Libros encantados"
 
   rules:
     # Hacer coincidir solo los libros encantados.
@@ -238,7 +238,7 @@ enchanted-books:
 # Los objetos que no coincidan con ninguna otra categoria apareceran aqui.
 
 misc:
-  display-name: "#0c1719Varios"
+  display-name: "Varios"
   # Sin reglas definidas = categoria por defecto para objetos sin coincidencia.
   # Cualquier objeto que no coincida con armas, armaduras, herramientas, etc. va aqui.
 

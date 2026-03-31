@@ -54,6 +54,10 @@ public class HistoryItemsButton extends LoadingButton {
                             this.plugin.getAuctionManager().getHistoryService().openHistoryInventory(player);
                         }
                     });
+                }).exceptionally(throwable -> {
+                    cache.set(PlayerCacheKey.HISTORY_LOADING, false);
+                    this.plugin.getLogger().severe("Failed to load history: " + throwable.getMessage());
+                    return null;
                 });
             }
             return;

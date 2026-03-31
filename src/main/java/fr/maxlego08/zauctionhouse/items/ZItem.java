@@ -4,7 +4,9 @@ import fr.maxlego08.menu.api.utils.Placeholders;
 import fr.maxlego08.zauctionhouse.api.AuctionPlugin;
 import fr.maxlego08.zauctionhouse.api.category.Category;
 import fr.maxlego08.zauctionhouse.api.economy.AuctionEconomy;
+import fr.maxlego08.zauctionhouse.api.economy.PriceFormat;
 import fr.maxlego08.zauctionhouse.api.item.Item;
+import fr.maxlego08.zauctionhouse.api.item.ItemPlaceholder;
 import fr.maxlego08.zauctionhouse.api.item.ItemStatus;
 import fr.maxlego08.zauctionhouse.utils.PerformanceDebug;
 import org.bukkit.Bukkit;
@@ -23,10 +25,9 @@ public abstract class ZItem implements Item {
     protected final String sellerName;
     protected final BigDecimal price;
     protected final String economyName;
-    protected AuctionEconomy auctionEconomy;
     protected final Date createdAt;
     protected final PerformanceDebug performanceDebug;
-
+    protected AuctionEconomy auctionEconomy;
     protected Date expiredAt;
     protected ItemStatus itemStatus = ItemStatus.AVAILABLE;
     protected UUID buyerUniqueId;
@@ -104,15 +105,33 @@ public abstract class ZItem implements Item {
 
     @Override
     public Placeholders createPlaceholders(Player player) {
+        return createPlaceholders(player, ItemPlaceholder.all());
+    }
+
+    @Override
+    public Placeholders createPlaceholders(Player player, Set<ItemPlaceholder> needed) {
         return this.performanceDebug.measureWithContext("item.CreatePlaceholders", () -> {
             Placeholders placeholders = new Placeholders();
-            placeholders.register("economy-name", this.auctionEconomy.getName());
-            placeholders.register("economy-display-name", this.auctionEconomy.getDisplayName());
-            placeholders.register("seller", this.getSellerName());
-            placeholders.register("status", this.createStatus(player));
-            placeholders.register("price", getFormattedPrice());
-            placeholders.register("time-remaining", this.getRemainingTime());
-            placeholders.register("formatted-expire-date", this.getFormattedExpireDate());
+            if (needed.contains(ItemPlaceholder.ECONOMY_NAME))
+                placeholders.register("economy-name", this.auctionEconomy.getName());
+            if (needed.contains(ItemPlaceholder.ECONOMY_DISPLAY_NAME))
+                placeholders.register("economy-display-name", this.auctionEconomy.getDisplayName());
+            if (needed.contains(ItemPlaceholder.SELLER))
+                placeholders.register("seller", this.getSellerName());
+            if (needed.contains(ItemPlaceholder.STATUS))
+                placeholders.register("status", this.createStatus(player));
+            if (needed.contains(ItemPlaceholder.PRICE))
+                placeholders.register("price", getFormattedPrice());
+            if (needed.contains(ItemPlaceholder.PRICE_RAW))
+                placeholders.register("price-price-raw", getFormattedPrice(PriceFormat.PRICE_RAW));
+            if (needed.contains(ItemPlaceholder.PRICE_WITH_DECIMAL_FORMAT))
+                placeholders.register("price-price-with-decimal-format", getFormattedPrice(PriceFormat.PRICE_WITH_DECIMAL_FORMAT));
+            if (needed.contains(ItemPlaceholder.PRICE_WITH_REDUCTION))
+                placeholders.register("price-price-with-reduction", getFormattedPrice(PriceFormat.PRICE_WITH_REDUCTION));
+            if (needed.contains(ItemPlaceholder.TIME_REMAINING))
+                placeholders.register("time-remaining", this.getRemainingTime());
+            if (needed.contains(ItemPlaceholder.FORMATTED_EXPIRE_DATE))
+                placeholders.register("formatted-expire-date", this.getFormattedExpireDate());
             return placeholders;
         }, () -> "for=" + player.getName() + ", itemId=" + this.id);
     }
@@ -130,6 +149,11 @@ public abstract class ZItem implements Item {
     @Override
     public String getFormattedPrice() {
         return this.plugin.getEconomyManager().format(this.auctionEconomy, this.price);
+    }
+
+    @Override
+    public String getFormattedPrice(PriceFormat priceFormat) {
+        return this.plugin.getEconomyManager().format(priceFormat, this.price);
     }
 
     @Override

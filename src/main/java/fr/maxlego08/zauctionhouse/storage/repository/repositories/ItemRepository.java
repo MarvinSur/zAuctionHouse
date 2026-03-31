@@ -72,8 +72,10 @@ public class ItemRepository extends Repository {
             if (storageType != StorageType.DELETED) {
                 schema.object("expired_at", item.getExpiredAt());
             }
-            if (storageType == StorageType.PURCHASED) {
-                schema.uuid("buyer_unique_id", item.getBuyerUniqueId());
+            if (storageType == StorageType.PURCHASED || storageType == StorageType.DELETED) {
+                if (item.getBuyerUniqueId() != null) {
+                    schema.uuid("buyer_unique_id", item.getBuyerUniqueId());
+                }
             }
         };
     }

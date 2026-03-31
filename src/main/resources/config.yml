@@ -130,7 +130,7 @@ database-configuration:
   # Useful when sharing a database with other plugins to avoid table name conflicts.
   # WARNING: Do not change this after the plugin has stored data, or data will be lost.
   # Default tables created: {prefix}items, {prefix}auction_items, {prefix}players, etc.
-  table-prefix: zauctionhouse_
+  table-prefix: zauctionhousev4_
 
   # IP address or hostname of the database server.
   # Use 'localhost' or '127.0.0.1' if the database is on the same machine.

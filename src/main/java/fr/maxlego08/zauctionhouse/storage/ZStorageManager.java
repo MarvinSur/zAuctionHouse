@@ -58,7 +58,7 @@ public class ZStorageManager extends ItemLoaderUtils implements StorageManager {
             this.plugin.getLogger().info("The database connection is valid !");
         }
 
-        MigrationManager.setMigrationTableName("zauctionhouse_migrations");
+        MigrationManager.setMigrationTableName("zauctionhousev4_migrations");
         MigrationManager.setDatabaseConfiguration(databaseConfiguration);
 
         MigrationManager.registerMigration(new CreatePlayerMigration());
@@ -226,7 +226,7 @@ public class ZStorageManager extends ItemLoaderUtils implements StorageManager {
         var items = with(ItemRepository.class).select(integers.stream().map(String::valueOf).toList());
         if (items.isEmpty()) return new ArrayList<>();
 
-        var uuids = items.stream().map(e -> List.of(e.seller_unique_id(), e.buyer_unique_id())).flatMap(List::stream).filter(Objects::nonNull).map(UUID::toString).distinct().toList();
+        var uuids = items.stream().flatMap(e -> java.util.stream.Stream.of(e.seller_unique_id(), e.buyer_unique_id())).filter(Objects::nonNull).map(UUID::toString).distinct().toList();
         var playerNames = selectPlayers(uuids);
 
         var loadItems = new ArrayList<Item>();

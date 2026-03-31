@@ -136,8 +136,8 @@ public class ExpireService implements AuctionExpireService {
                     var sellerPlayer = item.getSeller().getPlayer();
                     // Player may have disconnected between isOnline() check and now
                     long expiration = sellerPlayer != null
-                        ? configuration.getExpireExpiration().getExpiration(sellerPlayer)
-                        : configuration.getExpireExpiration().defaultExpiration();
+                            ? configuration.getExpireExpiration().getExpiration(sellerPlayer)
+                            : configuration.getExpireExpiration().defaultExpiration();
                     long expiredAt = expiration > 0 ? System.currentTimeMillis() + (expiration * 1000) : 0;
                     item.setExpiredAt(new Date(expiredAt));
                     this.auctionManager.addItem(StorageType.EXPIRED, item);

@@ -68,8 +68,8 @@ public class SellService extends ZUtils implements AuctionSellService {
 
         // Add timeout to prevent indefinite blocking (30 seconds)
         resultFuture.completeOnTimeout(
-            SellResult.failure("Operation timed out", SellFailReason.DATABASE_ERROR),
-            30, TimeUnit.SECONDS
+                SellResult.failure("Operation timed out", SellFailReason.DATABASE_ERROR),
+                30, TimeUnit.SECONDS
         );
 
         // Calculate and apply sell tax asynchronously (considers all items for item-specific rules)

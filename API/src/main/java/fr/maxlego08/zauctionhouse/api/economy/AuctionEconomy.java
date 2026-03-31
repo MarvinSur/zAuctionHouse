@@ -138,6 +138,11 @@ public interface AuctionEconomy {
      */
     boolean isAutoClaim();
 
+    /**
+     * Indicates whether players must be online to claim rewards for this economy.
+     *
+     * @return {@code true} if players must be online to claim rewards, {@code false} otherwise.
+     */
     boolean mustBeOnline();
 
     /**

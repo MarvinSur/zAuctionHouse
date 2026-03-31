@@ -3,6 +3,7 @@ package fr.maxlego08.zauctionhouse.api.item;
 import fr.maxlego08.menu.api.utils.Placeholders;
 import fr.maxlego08.zauctionhouse.api.category.Category;
 import fr.maxlego08.zauctionhouse.api.economy.AuctionEconomy;
+import fr.maxlego08.zauctionhouse.api.economy.PriceFormat;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -12,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.EnumSet;
 
 /**
  * Abstraction representing an item tracked by the auction house, including metadata about the
@@ -103,12 +105,38 @@ public interface Item {
     ItemStack buildItemStack(Player player, List<String> lore);
 
     /**
+     * Builds the visual {@link ItemStack} representation using custom lore lines,
+     * resolving only the specified placeholders for better performance.
+     *
+     * @param player viewer for whom the item is being rendered
+     * @param lore   lore lines to inject into the item display
+     * @param needed the set of placeholders that the lore actually references
+     * @return item stack with placeholders resolved for the player
+     */
+    default ItemStack buildItemStack(Player player, List<String> lore, Set<ItemPlaceholder> needed) {
+        return buildItemStack(player, lore);
+    }
+
+    /**
      * Creates placeholder values for the item so they can be substituted into menus or messages.
      *
      * @param player viewer or actor requesting placeholder data
      * @return placeholder instance containing item-specific tokens
      */
     Placeholders createPlaceholders(Player player);
+
+    /**
+     * Creates placeholder values for the item, resolving only the specified placeholders.
+     * This avoids unnecessary computation (formatting, date parsing, etc.) for placeholders
+     * that are not referenced in the lore template.
+     *
+     * @param player viewer or actor requesting placeholder data
+     * @param needed the set of placeholders to resolve
+     * @return placeholder instance containing only the requested tokens
+     */
+    default Placeholders createPlaceholders(Player player, Set<ItemPlaceholder> needed) {
+        return createPlaceholders(player);
+    }
 
     /**
      * Generates the textual status of the item (e.g., listed, expired) personalized for the player.
@@ -122,6 +150,11 @@ public interface Item {
      * @return price formatted using the associated economy
      */
     String getFormattedPrice();
+
+    /**
+     * @return price formatted using the specified format
+     */
+    String getFormattedPrice(PriceFormat priceFormat);
 
     /**
      * @return formatted expiration date string respecting the plugin's date format

@@ -3,6 +3,7 @@ package fr.maxlego08.zauctionhouse.placeholder.placeholders;
 import fr.maxlego08.zauctionhouse.api.AuctionPlugin;
 import fr.maxlego08.zauctionhouse.api.cache.PlayerCacheKey;
 import fr.maxlego08.zauctionhouse.api.category.Category;
+import fr.maxlego08.zauctionhouse.api.item.ItemType;
 import fr.maxlego08.zauctionhouse.api.placeholders.Placeholder;
 import fr.maxlego08.zauctionhouse.api.placeholders.PlaceholderRegister;
 
@@ -107,5 +108,15 @@ public class PlayerPlaceholders implements PlaceholderRegister {
             }
             return "false";
         }, "Returns true if the player has pending money to claim");
+
+        placeholder.register("max_items_", (player, typeName) -> {
+            if (typeName == null || typeName.isEmpty()) return "0";
+            try {
+                ItemType itemType = ItemType.valueOf(typeName.toUpperCase());
+                return String.valueOf(configuration.getPermission().getLimit(itemType, player));
+            } catch (IllegalArgumentException exception) {
+                return "0";
+            }
+        }, "Returns the maximum number of items a player can list for a specific type", "<type>");
     }
 }

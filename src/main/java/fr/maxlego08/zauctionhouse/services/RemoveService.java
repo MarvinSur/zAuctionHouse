@@ -153,48 +153,28 @@ public class RemoveService extends AuctionService implements AuctionRemoveServic
      * 6. Notify cluster of removal
      * 7. Release lock
      */
-    private CompletableFuture<RemoveResult> executeRemoval(
-            ItemStatus targetStatus,
-            Player player,
-            Item item,
-            Runnable onUnavailable,
-            Supplier<CompletableFuture<Void>> onLocalRemoval,
-            StorageType storageType) {
+    private CompletableFuture<RemoveResult> executeRemoval(ItemStatus targetStatus, Player player, Item item, Runnable onUnavailable, Supplier<CompletableFuture<Void>> onLocalRemoval, StorageType storageType) {
 
         var context = new RemovalContext(item, targetStatus, storageType, onUnavailable, onLocalRemoval);
         var performanceConfig = this.plugin.getConfiguration().getPerformance();
         var clusterBridge = this.plugin.getAuctionClusterBridge();
         var logger = this.plugin.getLogger();
 
-        return checkAvailabilityStep(context, clusterBridge, performanceConfig)
-                .thenCompose(available -> acquireLockStep(context, available, player, clusterBridge, performanceConfig))
-                .thenCompose(token -> changeStatusAndNotifyStep(context, token, clusterBridge, performanceConfig))
-                .thenCompose(v -> executeLocalRemovalStep(context, clusterBridge, performanceConfig))
-                .thenCompose(v -> unlockAndCompleteStep(context, clusterBridge, performanceConfig))
-                .exceptionally(throwable -> handleRemovalException(context, throwable, clusterBridge, logger));
+        return checkAvailabilityStep(context, clusterBridge, performanceConfig).thenCompose(available -> acquireLockStep(context, available, player, clusterBridge, performanceConfig)).thenCompose(token -> changeStatusAndNotifyStep(context, token, clusterBridge, performanceConfig)).thenCompose(v -> executeLocalRemovalStep(context, clusterBridge, performanceConfig)).thenCompose(v -> unlockAndCompleteStep(context, clusterBridge, performanceConfig)).exceptionally(throwable -> handleRemovalException(context, throwable, clusterBridge, logger));
     }
 
     /**
      * Step 1: Check if the item is available on the cluster.
      */
-    private CompletableFuture<Boolean> checkAvailabilityStep(
-            RemovalContext context,
-            AuctionClusterBridge clusterBridge,
-            PerformanceConfiguration config) {
+    private CompletableFuture<Boolean> checkAvailabilityStep(RemovalContext context, AuctionClusterBridge clusterBridge, PerformanceConfiguration config) {
 
-        return clusterBridge.checkAvailability(context.item)
-                .orTimeout(config.checkAvailabilityTimeoutMs(), TimeUnit.MILLISECONDS);
+        return clusterBridge.checkAvailability(context.item).orTimeout(config.checkAvailabilityTimeoutMs(), TimeUnit.MILLISECONDS);
     }
 
     /**
      * Step 2: Acquire lock on the item.
      */
-    private CompletableFuture<LockToken> acquireLockStep(
-            RemovalContext context,
-            boolean available,
-            Player player,
-            AuctionClusterBridge clusterBridge,
-            PerformanceConfiguration config) {
+    private CompletableFuture<LockToken> acquireLockStep(RemovalContext context, boolean available, Player player, AuctionClusterBridge clusterBridge, PerformanceConfiguration config) {
 
         if (!available) {
             context.onUnavailable.run();
@@ -202,18 +182,13 @@ public class RemoveService extends AuctionService implements AuctionRemoveServic
             return failedFuture(new IllegalStateException("Item introuvable"));
         }
 
-        return clusterBridge.lockItem(context.item, player.getUniqueId(), context.storageType)
-                .orTimeout(config.lockItemTimeoutMs(), TimeUnit.MILLISECONDS);
+        return clusterBridge.lockItem(context.item, player.getUniqueId(), context.storageType).orTimeout(config.lockItemTimeoutMs(), TimeUnit.MILLISECONDS);
     }
 
     /**
      * Step 3: Change item status and notify cluster.
      */
-    private CompletableFuture<Void> changeStatusAndNotifyStep(
-            RemovalContext context,
-            LockToken token,
-            AuctionClusterBridge clusterBridge,
-            PerformanceConfiguration config) {
+    private CompletableFuture<Void> changeStatusAndNotifyStep(RemovalContext context, LockToken token, AuctionClusterBridge clusterBridge, PerformanceConfiguration config) {
 
         context.token = token;
 
@@ -227,47 +202,32 @@ public class RemoveService extends AuctionService implements AuctionRemoveServic
         context.item.setStatus(context.targetStatus);
         context.statusChanged = true;
 
-        return clusterBridge.notifyItemStatusChange(context.item, context.oldStatus, context.targetStatus)
-                .orTimeout(config.notifyStatusChangeTimeoutMs(), TimeUnit.MILLISECONDS);
+        return clusterBridge.notifyItemStatusChange(context.item, context.oldStatus, context.targetStatus).orTimeout(config.notifyStatusChangeTimeoutMs(), TimeUnit.MILLISECONDS);
     }
 
     /**
      * Step 4: Execute the local removal operation and notify cluster.
      */
-    private CompletableFuture<Void> executeLocalRemovalStep(
-            RemovalContext context,
-            AuctionClusterBridge clusterBridge,
-            PerformanceConfiguration config) {
+    private CompletableFuture<Void> executeLocalRemovalStep(RemovalContext context, AuctionClusterBridge clusterBridge, PerformanceConfiguration config) {
 
-        return context.onLocalRemoval.get()
-                .thenCompose(v -> clusterBridge.removeItem(context.item, context.storageType)
-                        .orTimeout(config.notifyItemActionTimeoutMs(), TimeUnit.MILLISECONDS));
+        return context.onLocalRemoval.get().thenCompose(v -> clusterBridge.removeItem(context.item, context.storageType).orTimeout(config.notifyItemActionTimeoutMs(), TimeUnit.MILLISECONDS));
     }
 
     /**
      * Step 5: Unlock the item and complete the removal.
      */
-    private CompletableFuture<RemoveResult> unlockAndCompleteStep(
-            RemovalContext context,
-            AuctionClusterBridge clusterBridge,
-            PerformanceConfiguration config) {
+    private CompletableFuture<RemoveResult> unlockAndCompleteStep(RemovalContext context, AuctionClusterBridge clusterBridge, PerformanceConfiguration config) {
 
-        return clusterBridge.unlockItem(context.item, context.token, context.storageType)
-                .orTimeout(config.unlockItemTimeoutMs(), TimeUnit.MILLISECONDS)
-                .thenApply(v -> {
-                    context.result = RemoveResult.success("Item removed successfully", true);
-                    return context.result;
-                });
+        return clusterBridge.unlockItem(context.item, context.token, context.storageType).orTimeout(config.unlockItemTimeoutMs(), TimeUnit.MILLISECONDS).thenApply(v -> {
+            context.result = RemoveResult.success("Item removed successfully", true);
+            return context.result;
+        });
     }
 
     /**
      * Handles exceptions during the removal process, including cleanup.
      */
-    private RemoveResult handleRemovalException(
-            RemovalContext context,
-            Throwable throwable,
-            AuctionClusterBridge clusterBridge,
-            Logger logger) {
+    private RemoveResult handleRemovalException(RemovalContext context, Throwable throwable, AuctionClusterBridge clusterBridge, Logger logger) {
 
         // Log appropriately based on exception type
         if (throwable.getCause() instanceof TimeoutException) {
@@ -290,11 +250,10 @@ public class RemoveService extends AuctionService implements AuctionRemoveServic
      */
     private void releaseLockOnError(RemovalContext context, AuctionClusterBridge clusterBridge, Logger logger) {
         if (context.token != null && !LockToken.noop().value().equals(context.token.value())) {
-            clusterBridge.unlockItem(context.item, context.token, context.storageType)
-                    .exceptionally(unlockError -> {
-                        logger.severe("Failed to unlock item after error: " + unlockError.getMessage());
-                        return null;
-                    });
+            clusterBridge.unlockItem(context.item, context.token, context.storageType).exceptionally(unlockError -> {
+                logger.severe("Failed to unlock item after error: " + unlockError.getMessage());
+                return null;
+            });
         }
     }
 
@@ -324,8 +283,7 @@ public class RemoveService extends AuctionService implements AuctionRemoveServic
         boolean statusChanged;
         RemoveResult result;
 
-        RemovalContext(Item item, ItemStatus targetStatus, StorageType storageType,
-                       Runnable onUnavailable, Supplier<CompletableFuture<Void>> onLocalRemoval) {
+        RemovalContext(Item item, ItemStatus targetStatus, StorageType storageType, Runnable onUnavailable, Supplier<CompletableFuture<Void>> onLocalRemoval) {
             this.item = item;
             this.oldStatus = item.getStatus();
             this.targetStatus = targetStatus;

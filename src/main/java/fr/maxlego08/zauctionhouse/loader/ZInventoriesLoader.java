@@ -27,6 +27,8 @@ import fr.maxlego08.zauctionhouse.buttons.list.SellingItemsButton;
 import fr.maxlego08.zauctionhouse.buttons.sell.SellCancelButton;
 import fr.maxlego08.zauctionhouse.buttons.sell.SellConfirmButton;
 import fr.maxlego08.zauctionhouse.buttons.sell.SellEconomyButton;
+import fr.maxlego08.zauctionhouse.buttons.SearchButton;
+import fr.maxlego08.zauctionhouse.buttons.ClearSearchButton;
 import fr.maxlego08.zauctionhouse.buttons.shulker.ShulkerInfoButton;
 import fr.maxlego08.zauctionhouse.buttons.shulker.ShulkerOpenButton;
 import fr.maxlego08.zauctionhouse.loader.buttons.*;
@@ -160,6 +162,10 @@ public class ZInventoriesLoader extends ZUtils implements InventoriesLoader {
         this.buttonManager.register(new CategoryButtonLoader(this.plugin));
         this.buttonManager.register(new CategorySwitcherLoader(this.plugin));
         this.buttonManager.register(new SellLimitLoader(this.plugin));
+
+        // Search
+        this.buttonManager.register(new NoneLoader(this.plugin, SearchButton.class, "ZAUCTIONHOUSE_SEARCH"));
+        this.buttonManager.register(new NoneLoader(this.plugin, ClearSearchButton.class, "ZAUCTIONHOUSE_CLEAR_SEARCH"));
 
         // Shulker
         this.buttonManager.register(new NoneLoader(this.plugin, ShulkerOpenButton.class, "ZAUCTIONHOUSE_SHULKER_OPEN"));

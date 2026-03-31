@@ -552,3 +552,13 @@ migration-success:
 # Placeholders disponibles:
 #   %error% - Message d'erreur
 migration-failed: "<error>La migration a échoué: <white>%error%"
+
+#=============================================================================
+# MESSAGES DE RECHERCHE
+#=============================================================================
+
+search-start: "<#8a8a8a>Veuillez taper votre recherche dans le chat."
+search-cleared: "<#8a8a8a>Recherche effacée."
+search-no-results: "<#8a8a8a>Aucun objet trouvé pour <#ffffff>%query%<#8a8a8a>."
+search-searching: "<#8a8a8a>Recherche de <#ffffff>%query%<#8a8a8a>..."
+command-description-auction-search: "Rechercher des objets dans l'hôtel des ventes"

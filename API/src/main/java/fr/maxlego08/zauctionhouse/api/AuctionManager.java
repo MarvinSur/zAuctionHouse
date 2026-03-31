@@ -356,4 +356,20 @@ public interface AuctionManager {
      * Should be called when the plugin is disabled to prevent resource leaks.
      */
     void shutdown();
+
+    /**
+     * Starts a search for the given player, storing the query in cache and opening
+     * the auction inventory with filtered results.
+     *
+     * @param player the player initiating the search
+     * @param query  the search query string
+     */
+    void startSearch(Player player, String query);
+
+    /**
+     * Clears an active search for the given player, removing search-related cache entries.
+     *
+     * @param player the player whose search should be cleared
+     */
+    void clearSearch(Player player);
 }

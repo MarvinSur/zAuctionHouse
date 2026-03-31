@@ -260,6 +260,14 @@ commands:
       - c
       - reclamar   # Espanol
 
+  # Comando buscar: /zauctionhouse search <consulta>
+  # Busca objetos en la casa de subastas por texto.
+  search:
+    aliases:
+      - search
+      - s
+      - buscar        # Espanol
+
   # Comando page: /zauctionhouse page <numero>
   # Abre la casa de subastas directamente en una pagina especifica.
   page:

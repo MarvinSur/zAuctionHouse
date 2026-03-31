@@ -260,6 +260,14 @@ commands:
       - c
       - recuperer    # Français
 
+  # Commande recherche: /zauctionhouse search <requête>
+  # Recherche des objets dans l'hôtel des ventes par texte.
+  search:
+    aliases:
+      - search
+      - s
+      - rechercher
+
   # Commande page: /zauctionhouse page <numéro>
   # Ouvre l'hôtel des ventes directement à une page spécifique.
   page:

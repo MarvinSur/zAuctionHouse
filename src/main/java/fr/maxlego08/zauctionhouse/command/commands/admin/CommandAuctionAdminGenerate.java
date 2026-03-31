@@ -223,7 +223,7 @@ public class CommandAuctionAdminGenerate extends VCommand {
                 long duration = endTime - startTime;
 
                 // Clear caches
-                auctionManager.clearPlayersCache(PlayerCacheKey.ITEMS_LISTED);
+                auctionManager.clearPlayersCache(PlayerCacheKey.ITEMS_LISTED, PlayerCacheKey.ITEMS_SEARCH);
                 plugin.getCategoryManager().invalidateCategoryCountCache();
 
                 plugin.getScheduler().runNextTick(t -> message(plugin, commandSender, Message.ADMIN_GENERATE_COMPLETE, "%amount%", String.valueOf(created.get()), "%time%", String.valueOf(duration)));

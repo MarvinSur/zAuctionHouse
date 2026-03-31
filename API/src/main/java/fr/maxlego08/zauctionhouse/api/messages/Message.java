@@ -150,7 +150,15 @@ public enum Message {
             "<gray>  Transactions: <white>%transactions%",
             "<gray>  Errors: <white>%errors%",
             "<gray>  Duration: <white>%duration%ms"),
-    MIGRATION_FAILED("<error>Migration failed: <white>%error%");
+    MIGRATION_FAILED("<error>Migration failed: <white>%error%"),
+
+    // Search messages
+    SEARCH_START("<#8a8a8a>Please type your search in the chat."),
+    SEARCH_CLEARED("<#8a8a8a>Search cleared."),
+    SEARCH_NO_RESULTS("<#8a8a8a>No items found for <#ffffff>%query%<#8a8a8a>."),
+    SEARCH_SEARCHING("<#8a8a8a>Searching for <#ffffff>%query%<#8a8a8a>..."),
+
+    COMMAND_DESCRIPTION_AUCTION_SEARCH("Search for items in the auction house");
 
     private AuctionPlugin plugin;
     private List<AuctionMessage> messages = new ArrayList<>();

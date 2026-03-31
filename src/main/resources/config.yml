@@ -260,6 +260,14 @@ commands:
       - c
       - recuperer    # French: "to recover"
 
+  # Search command: /zauctionhouse search <query>
+  # Searches for items in the auction house by text.
+  search:
+    aliases:
+      - search
+      - s
+      - rechercher   # French: "to search"
+
   # Page command: /zauctionhouse page <number>
   # Opens the auction house at a specific page directly.
   page:

@@ -75,7 +75,11 @@ public enum PlayerCacheKey {
     SHULKER_ITEMS(new TypeToken<List<org.bukkit.inventory.ItemStack>>() {}, ArrayList::new),
 
     // Refresh Button
-    REFRESH_LOADING(new TypeToken<Boolean>() {}, () -> false)
+    REFRESH_LOADING(new TypeToken<Boolean>() {}, () -> false),
+
+    // Search
+    SEARCH_QUERY(new TypeToken<String>() {}, () -> null),
+    ITEMS_SEARCH(new TypeToken<IntList>() {}, IntArrayList::new)
     ;
 
     private final TypeToken<?> type;

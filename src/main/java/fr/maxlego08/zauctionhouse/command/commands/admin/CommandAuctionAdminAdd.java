@@ -98,7 +98,7 @@ public class CommandAuctionAdminAdd extends VCommand {
         this.plugin.getStorageManager().createAuctionItem(target, price, expiredAt, List.of(cloned), economy)
                 .thenAccept(item -> {
                     this.auctionManager.addItem(StorageType.LISTED, item);
-                    this.auctionManager.clearPlayersCache(PlayerCacheKey.ITEMS_LISTED, PlayerCacheKey.ITEMS_SELLING);
+                    this.auctionManager.clearPlayersCache(PlayerCacheKey.ITEMS_LISTED, PlayerCacheKey.ITEMS_SELLING, PlayerCacheKey.ITEMS_SEARCH);
                     this.auctionManager.updateListedItems(item, true, target);
                     this.auctionManager.message(admin, Message.ADMIN_ITEM_ADDED, "%items%", item.getItemDisplay(), "%target%", target.getName(), "%type%", "listed");
                 });

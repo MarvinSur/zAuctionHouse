@@ -209,6 +209,54 @@ items:
           - "#ff3535You have no items for sale."
 
   #---------------------------------------------------------------------------
+  # SEARCH BUTTON
+  #---------------------------------------------------------------------------
+  # Opens the chat search input for filtering items.
+
+  search:
+    type: ZAUCTIONHOUSE_SEARCH
+    slot: 47
+    is-permanent: true
+    item:
+      material: COMPASS
+      name: "#2CCED2<bold>sᴇᴀʀᴄʜ"
+      lore:
+        - ""
+        - "#92ffffCurrent search#8c8c8c: #2CCED2%search_query%"
+        - ""
+        - "#92ffffFilters#8c8c8c:"
+        - "#8c8c8c  name #76CDCD~ #8c8c8cvalue    #555555(contains)"
+        - "#8c8c8c  name #76CDCD= #8c8c8cvalue    #555555(exact)"
+        - "#8c8c8c  name #76CDCD~= #8c8c8cvalue   #555555(contains, ignore case)"
+        - "#8c8c8c  name #76CDCD== #8c8c8cvalue   #555555(exact, ignore case)"
+        - ""
+        - "#92ffffFields#8c8c8c: #76CDCDname#8c8c8c, #76CDCDmaterial#8c8c8c, #76CDCDlore#8c8c8c, #76CDCDseller"
+        - ""
+        - "#92ffffExamples#8c8c8c:"
+        - "#8c8c8c  seller #76CDCD= #8c8c8cNotch"
+        - "#8c8c8c  name #76CDCD~ #8c8c8cDiamond"
+        - ""
+        - "#8c8c8c• #2CCED2Click #92ffffto search"
+
+  #---------------------------------------------------------------------------
+  # CLEAR SEARCH BUTTON
+  #---------------------------------------------------------------------------
+  # Clears the active search. Only visible when a search is active.
+
+  clear-search:
+    type: ZAUCTIONHOUSE_CLEAR_SEARCH
+    slot: 48
+    is-permanent: true
+    item:
+      material: BARRIER
+      name: "#ff6b6b<bold>ᴄʟᴇᴀʀ sᴇᴀʀᴄʜ"
+      lore:
+        - ""
+        - "#92ffffSearching for#8c8c8c: #2CCED2%search_query%"
+        - ""
+        - "#8c8c8c• #2CCED2Click #92ffffto clear search"
+
+  #---------------------------------------------------------------------------
   # REFRESH BUTTON
   #---------------------------------------------------------------------------
   # Displays auction house information and refreshes the item list.

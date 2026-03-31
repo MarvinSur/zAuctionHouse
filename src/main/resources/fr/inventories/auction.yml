@@ -209,6 +209,54 @@ items:
           - "#ff3535Vous n'avez pas d'items en vente."
 
   #---------------------------------------------------------------------------
+  # BOUTON RECHERCHE
+  #---------------------------------------------------------------------------
+  # Ouvre la saisie de recherche dans le chat pour filtrer les objets.
+
+  search:
+    type: ZAUCTIONHOUSE_SEARCH
+    slot: 47
+    is-permanent: true
+    item:
+      material: COMPASS
+      name: "#2CCED2<bold>ʀᴇᴄʜᴇʀᴄʜᴇ"
+      lore:
+        - ""
+        - "#92ffffRecherche actuelle#8c8c8c: #2CCED2%search_query%"
+        - ""
+        - "#92ffffFiltres#8c8c8c:"
+        - "#8c8c8c  nom #76CDCD~ #8c8c8cvaleur    #555555(contient)"
+        - "#8c8c8c  nom #76CDCD= #8c8c8cvaleur    #555555(exact)"
+        - "#8c8c8c  nom #76CDCD~= #8c8c8cvaleur   #555555(contient, sans casse)"
+        - "#8c8c8c  nom #76CDCD== #8c8c8cvaleur   #555555(exact, sans casse)"
+        - ""
+        - "#92ffffChamps#8c8c8c: #76CDCDname#8c8c8c, #76CDCDmaterial#8c8c8c, #76CDCDlore#8c8c8c, #76CDCDseller"
+        - ""
+        - "#92ffffExemples#8c8c8c:"
+        - "#8c8c8c  seller #76CDCD= #8c8c8cNotch"
+        - "#8c8c8c  name #76CDCD~ #8c8c8cDiamond"
+        - ""
+        - "#8c8c8c• #2CCED2Cliquer #92ffffpour rechercher"
+
+  #---------------------------------------------------------------------------
+  # BOUTON EFFACER RECHERCHE
+  #---------------------------------------------------------------------------
+  # Efface la recherche active. Visible uniquement quand une recherche est active.
+
+  clear-search:
+    type: ZAUCTIONHOUSE_CLEAR_SEARCH
+    slot: 48
+    is-permanent: true
+    item:
+      material: BARRIER
+      name: "#ff6b6b<bold>ᴇғғᴀᴄᴇʀ ʀᴇᴄʜᴇʀᴄʜᴇ"
+      lore:
+        - ""
+        - "#92ffffRecherche#8c8c8c: #2CCED2%search_query%"
+        - ""
+        - "#8c8c8c• #2CCED2Cliquer #92ffffpour effacer"
+
+  #---------------------------------------------------------------------------
   # BOUTON RAFRAICHISSEMENT
   #---------------------------------------------------------------------------
   # Affiche les informations de l'hôtel des ventes et rafraîchit la liste.

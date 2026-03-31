@@ -232,6 +232,13 @@ commands:
       - c
       - recuperer    # ฝรั่งเศส: "กู้คืน"
 
+  # คำสั่งค้นหา: /zauctionhouse search <query>
+  # ค้นหาไอเทมใน auction house ด้วยข้อความ
+  search:
+    aliases:
+      - search
+      - s
+
   # คำสั่งเปิดหน้า: /zauctionhouse page <number>
   # เปิด auction ที่หน้าที่กำหนดโดยตรง
   page:

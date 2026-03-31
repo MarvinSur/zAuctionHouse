@@ -37,7 +37,7 @@ public class ExpireService implements AuctionExpireService {
         var configuration = this.plugin.getConfiguration();
         var storageManager = this.plugin.getStorageManager();
 
-        this.auctionManager.clearPlayersCache(PlayerCacheKey.ITEMS_LISTED); // Suppression du cache global
+        this.auctionManager.clearPlayersCache(PlayerCacheKey.ITEMS_LISTED, PlayerCacheKey.ITEMS_SEARCH); // Suppression du cache global
 
         var offlineSeller = item.getSeller();
         if (offlineSeller.isOnline()) {
@@ -99,7 +99,7 @@ public class ExpireService implements AuctionExpireService {
             event.callEvent();
         });
 
-        this.auctionManager.clearPlayersCache(PlayerCacheKey.ITEMS_LISTED);
+        this.auctionManager.clearPlayersCache(PlayerCacheKey.ITEMS_LISTED, PlayerCacheKey.ITEMS_SEARCH);
 
         // Clear player caches for online sellers
         Set<OfflinePlayer> offlinePlayers = new HashSet<>();

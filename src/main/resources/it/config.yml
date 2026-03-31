@@ -260,6 +260,14 @@ commands:
       - c
       - riscuoti     # Italiano
 
+  # Comando cerca: /zauctionhouse search <ricerca>
+  # Cerca oggetti nella casa d'aste per testo.
+  search:
+    aliases:
+      - search
+      - s
+      - cerca          # Italiano
+
   # Comando page: /zauctionhouse page <numero>
   # Apre la casa d'aste direttamente a una pagina specifica.
   page:

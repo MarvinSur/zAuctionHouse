@@ -552,3 +552,26 @@ migration-success:
 # Available placeholders:
 #   %error% - Error message
 migration-failed: "<error>Migration failed: <white>%error%"
+
+#=============================================================================
+# SEARCH MESSAGES
+#=============================================================================
+
+# Shown when the player starts a search via chat.
+search-start: "<#8a8a8a>Please type your search in the chat."
+
+# Shown when the search is cleared.
+search-cleared: "<#8a8a8a>Search cleared."
+
+# Shown when no items match the search query.
+# Available placeholders:
+#   %query% - The search query
+search-no-results: "<#8a8a8a>No items found for <#ffffff>%query%<#8a8a8a>."
+
+# Shown when a search is being executed.
+# Available placeholders:
+#   %query% - The search query
+search-searching: "<#8a8a8a>Searching for <#ffffff>%query%<#8a8a8a>..."
+
+# Command description for /ah search
+command-description-auction-search: "Search for items in the auction house"

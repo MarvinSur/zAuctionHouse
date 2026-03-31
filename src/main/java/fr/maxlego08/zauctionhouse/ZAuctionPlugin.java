@@ -31,6 +31,7 @@ import fr.maxlego08.zauctionhouse.hooks.permissions.EmptyOfflinePermission;
 import fr.maxlego08.zauctionhouse.hooks.permissions.LuckPermsOfflinePermission;
 import fr.maxlego08.zauctionhouse.listeners.PlayerListener;
 import fr.maxlego08.zauctionhouse.loader.MessageLoader;
+import fr.maxlego08.zauctionhouse.search.ChatSearchListener;
 import fr.maxlego08.zauctionhouse.loader.ZInventoriesLoader;
 import fr.maxlego08.zauctionhouse.migration.ZMigrationRegistry;
 import fr.maxlego08.zauctionhouse.migration.v3.V3MigrationProvider;
@@ -79,6 +80,7 @@ public class ZAuctionPlugin extends JavaPlugin implements AuctionPlugin {
     private final YamlUpdater yamlUpdater = new YamlUpdater(this);
     private final MigrationRegistry migrationRegistry = new ZMigrationRegistry(this);
     private InventoriesLoader inventoriesLoader;
+    private ChatSearchListener chatSearchListener;
     private DiscordWebhookService discordWebhookService;
     private VersionChecker versionChecker;
     private boolean isEnabled = false;
@@ -122,7 +124,9 @@ public class ZAuctionPlugin extends JavaPlugin implements AuctionPlugin {
 
         this.discordWebhookService = new DiscordWebhookService(this);
 
+        this.chatSearchListener = new ChatSearchListener(this);
         this.addListener(new PlayerListener(this));
+        this.addListener(this.chatSearchListener);
 
         java.util.List<String> aliases = new java.util.ArrayList<>(getConfig().getStringList("commands.main-command.aliases"));
         String primaryCommand;
@@ -392,6 +396,10 @@ public class ZAuctionPlugin extends JavaPlugin implements AuctionPlugin {
     @Override
     public Placeholder getPlaceholder() {
         return this.placeholder;
+    }
+
+    public ChatSearchListener getChatSearchListener() {
+        return this.chatSearchListener;
     }
 
     public DiscordWebhookService getDiscordWebhookService() {

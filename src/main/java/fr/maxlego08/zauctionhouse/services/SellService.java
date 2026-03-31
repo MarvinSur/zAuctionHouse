@@ -359,7 +359,7 @@ public class SellService extends ZUtils implements AuctionSellService {
 
         this.manager.addItem(StorageType.LISTED, auctionItem);
 
-        this.manager.clearPlayersCache(PlayerCacheKey.ITEMS_LISTED); // Suppression du cache global
+        this.manager.clearPlayersCache(PlayerCacheKey.ITEMS_LISTED, PlayerCacheKey.ITEMS_SEARCH); // Suppression du cache global
         this.manager.clearPlayerCache(player, PlayerCacheKey.ITEMS_SELLING); // Suppression du cache du joueur
 
         this.manager.updateListedItems(auctionItem, true, player);

@@ -45,7 +45,7 @@ public abstract class ConfirmHelper extends Button {
                     return null;
                 });
 
-            manager.clearPlayersCache(PlayerCacheKey.ITEMS_LISTED);
+            manager.clearPlayersCache(PlayerCacheKey.ITEMS_LISTED, PlayerCacheKey.ITEMS_SEARCH);
             manager.updateListedItems(item, true, player);
         }
     }

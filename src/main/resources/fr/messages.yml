@@ -84,6 +84,7 @@ command-description-auction-reload: "Recharger les fichiers de configuration"
 command-description-auction-admin: "Ouvrir les outils d'administration"
 command-description-auction-admin-generate: "Générer des items factices"
 command-description-auction-admin-open: "Ouvrir les items en vente actuels"
+command-description-auction-admin-forceopen: "Ouvrir n'importe quel inventaire pour un joueur"
 command-description-auction-admin-history: "Ouvrir l'historique d'un joueur"
 command-description-auction-admin-add: "Ajouter un item à l'hôtel des ventes"
 command-description-auction-admin-cache: "Gérer le cache des joueurs"
@@ -158,6 +159,13 @@ admin-target-not-found: "<error>Impossible de trouver le joueur <white>%target%<
 #   %type%   - Type d'items (en vente, expirés, achetés)
 #   %target% - Nom du joueur cible
 admin-open-inventory: "<success>Ouverture des items %type% pour <white>%target%<success>."
+
+# Affiché lors de l'ouverture forcée d'un inventaire en tant qu'admin.
+# Placeholders disponibles:
+#   %inventory% - Nom de l'inventaire
+#   %target%    - Nom du joueur cible
+#   %page%      - Numéro de page
+admin-forceopen-inventory: "<success>Ouverture de l'inventaire <white>%inventory%<success> pour <white>%target%<success> à la page <white>%page%<success>."
 
 # Affiché lors de l'ouverture de l'historique d'un joueur en tant qu'admin.
 # Placeholders disponibles:

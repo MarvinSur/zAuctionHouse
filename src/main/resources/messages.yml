@@ -84,6 +84,7 @@ command-description-auction-reload: "Reload configurations files"
 command-description-auction-admin: "Open administrative tools for auctions"
 command-description-auction-admin-generate: "Generate fake items"
 command-description-auction-admin-open: "Open current auction items"
+command-description-auction-admin-forceopen: "Open any inventory for a player"
 command-description-auction-admin-history: "Open player auction history"
 command-description-auction-admin-add: "Add an item to the auction"
 command-description-auction-admin-cache: "Manage player cache"
@@ -158,6 +159,13 @@ admin-target-not-found: "<error>Unable to find the player <white>%target%<error>
 #   %type%   - Type of items (selling, expired, purchased)
 #   %target% - Target player name
 admin-open-inventory: "<success>Opening %type% items for <white>%target%<success>."
+
+# Shown when force-opening an inventory as admin.
+# Available placeholders:
+#   %inventory% - Inventory name
+#   %target%    - Target player name
+#   %page%      - Page number
+admin-forceopen-inventory: "<success>Opening inventory <white>%inventory%<success> for <white>%target%<success> at page <white>%page%<success>."
 
 # Shown when opening a player's history as admin.
 # Available placeholders:

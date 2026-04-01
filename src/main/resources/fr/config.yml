@@ -130,7 +130,7 @@ database-configuration:
   # Utile pour partager une BDD avec d'autres plugins et éviter les conflits de noms.
   # ATTENTION: Ne changez pas après que le plugin ait stocké des données, sinon elles seront perdues.
   # Tables créées par défaut: {prefix}items, {prefix}auction_items, {prefix}players, etc.
-  table-prefix: zauctionhouse_
+  table-prefix: zauctionhousev4_
 
   # Adresse IP ou nom d'hôte du serveur de base de données.
   # Utilisez 'localhost' ou '127.0.0.1' si la BDD est sur la même machine.

@@ -112,7 +112,7 @@ database-configuration:
   # prefix ของชื่อ table ที่ปลั๊กอินสร้าง
   # มีประโยชน์เมื่อใช้ฐานข้อมูลร่วมกับปลั๊กอินอื่น ป้องกันชื่อชนกัน
   # คำเตือน: ห้ามเปลี่ยนหลังมีข้อมูลแล้ว ไม่งั้นปลั๊กอินจะมองไม่เห็นข้อมูลเดิม
-  table-prefix: zauctionhouse_
+  table-prefix: zauctionhousev4_
 
   # IP หรือ hostname ของ database server
   # ถ้า DB อยู่เครื่องเดียวกันใช้ 'localhost' หรือ '127.0.0.1'

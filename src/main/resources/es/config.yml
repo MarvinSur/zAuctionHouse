@@ -130,7 +130,7 @@ database-configuration:
   # Util para compartir una BD con otros plugins y evitar conflictos de nombres.
   # ATENCION: No cambiar despues de que el plugin haya almacenado datos, de lo contrario se perderan.
   # Tablas creadas por defecto: {prefix}items, {prefix}auction_items, {prefix}players, etc.
-  table-prefix: zauctionhouse_
+  table-prefix: zauctionhousev4_
 
   # Direccion IP o hostname del servidor de base de datos.
   # Usa 'localhost' o '127.0.0.1' si la BD esta en la misma maquina.

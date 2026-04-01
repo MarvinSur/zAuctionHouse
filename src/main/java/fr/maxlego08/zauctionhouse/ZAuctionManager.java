@@ -859,25 +859,29 @@ public class ZAuctionManager extends ZUtils implements AuctionManager {
 
         if (!added && ignoredPlayer != null) removeFromCache(ignoredPlayer, item);
 
-        this.plugin.getScheduler().runAsync(w -> {
-            for (Player onlinePlayer : this.plugin.getServer().getOnlinePlayers()) {
+        // Wait for the sorted cache to be rebuilt before updating inventories,
+        // otherwise players get stale data cached from a dirty sorted cache
+        this.sortedItemsCache.ensureCacheValidAsync().thenRun(() -> {
+            this.plugin.getScheduler().runAsync(w -> {
+                for (Player onlinePlayer : this.plugin.getServer().getOnlinePlayers()) {
 
-                if (onlinePlayer == ignoredPlayer) continue;
+                    if (onlinePlayer == ignoredPlayer) continue;
 
-                var topInventory = CompatibilityUtil.getTopInventory(onlinePlayer);
-                if (topInventory == null) continue;
+                    var topInventory = CompatibilityUtil.getTopInventory(onlinePlayer);
+                    if (topInventory == null) continue;
 
-                var holder = topInventory.getHolder();
-                if (holder instanceof InventoryEngine inventoryEngine) {
-                    var buttons = inventoryEngine.getMenuInventory().getButtons(ListedItemsButton.class);
-                    if (buttons.isEmpty()) continue;
+                    var holder = topInventory.getHolder();
+                    if (holder instanceof InventoryEngine inventoryEngine) {
+                        var buttons = inventoryEngine.getMenuInventory().getButtons(ListedItemsButton.class);
+                        if (buttons.isEmpty()) continue;
 
-                    var listedItemsButton = buttons.getFirst();
-                    listedItemsButton.updateInventory(onlinePlayer, inventoryEngine, item, added, this);
+                        var listedItemsButton = buttons.getFirst();
+                        listedItemsButton.updateInventory(onlinePlayer, inventoryEngine, item, added, this);
+                    }
+
+                    if (!added) removeFromCache(onlinePlayer, item);
                 }
-
-                if (!added) removeFromCache(onlinePlayer, item);
-            }
+            });
         });
     }
 

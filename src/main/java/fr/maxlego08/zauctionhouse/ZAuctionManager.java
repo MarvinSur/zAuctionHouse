@@ -278,7 +278,7 @@ public class ZAuctionManager extends ZUtils implements AuctionManager {
 
         // If a search is active, use search results
         String searchQuery = cache.get(PlayerCacheKey.SEARCH_QUERY);
-        if (searchQuery != null && !searchQuery.isEmpty()) {
+        if (searchQuery != null && !searchQuery.isBlank()) {
             IntList ids = cache.getOrCompute(PlayerCacheKey.ITEMS_SEARCH, () -> searchService.search(sortedItemsCache, searchQuery, sort, category));
             performanceDebug.end("getItemIdsListedForSale[search]", startTime, "query=" + searchQuery + ", sort=" + sort + ", ids=" + ids.size());
             return ids;
@@ -980,12 +980,19 @@ public class ZAuctionManager extends ZUtils implements AuctionManager {
 
     @Override
     public void startSearch(Player player, String query) {
+        String normalizedQuery = query == null ? null : query.trim();
+        if (normalizedQuery == null || normalizedQuery.isBlank()) {
+            clearSearch(player);
+            openAuctionInventory(player, 1);
+            return;
+        }
+
         var cache = getCache(player);
-        cache.set(PlayerCacheKey.SEARCH_QUERY, query);
+        cache.set(PlayerCacheKey.SEARCH_QUERY, normalizedQuery);
         cache.remove(PlayerCacheKey.ITEMS_SEARCH);
         cache.remove(PlayerCacheKey.ITEMS_LISTED);
 
-        message(player, Message.SEARCH_SEARCHING, "%query%", query);
+        message(player, Message.SEARCH_SEARCHING, "%query%", normalizedQuery);
 
         openAuctionInventory(player, 1);
     }

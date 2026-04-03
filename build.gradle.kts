@@ -83,14 +83,7 @@ dependencies {
 }
 
 tasks {
-    jar {
-        archiveClassifier.set("thin")
-    }
-
     shadowJar {
-        archiveBaseName.set(rootProject.name)
-        destinationDirectory.set(layout.buildDirectory.dir("libs"))
-
         relocate("fr.maxlego08.sarah", "fr.maxlego08.zauctionhouse.libs.sarah")
         relocate("com.tcoded.folialib", "fr.maxlego08.zauctionhouse.libs.folialib")
         relocate("fr.traqueur.currencies", "fr.maxlego08.zauctionhouse.libs.currencies")
@@ -100,6 +93,7 @@ tasks {
         } ?: run {
             archiveClassifier.set(rootProject.extra.properties["classifier"] as String?)
         }
+        destinationDirectory.set(rootProject.extra["targetFolder"] as File)
     }
 
     build {

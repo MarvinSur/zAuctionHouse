@@ -29,9 +29,10 @@ public class SearchButton extends Button {
     public ItemStack getCustomItemStack(@NotNull Player player, boolean useCache, @NotNull Placeholders placeholders) {
         var cache = this.plugin.getAuctionManager().getCache(player);
         String query = cache.get(PlayerCacheKey.SEARCH_QUERY);
+        boolean hasActiveQuery = query != null && !query.isBlank();
 
-        placeholders.register("search_query", query != null ? query : "None");
-        placeholders.register("search_active", query != null ? "true" : "false");
+        placeholders.register("search_query", hasActiveQuery ? query : "None");
+        placeholders.register("search_active", hasActiveQuery ? "true" : "false");
 
         return this.getItemStack().build(player, false, placeholders);
     }
@@ -44,7 +45,7 @@ public class SearchButton extends Button {
         String query = cache.get(PlayerCacheKey.SEARCH_QUERY);
 
         if (event.isRightClick()) {
-            if (query != null && !query.isEmpty()) {
+            if (query != null) {
                 this.plugin.getAuctionManager().clearSearch(player);
                 this.plugin.getAuctionManager().openMainAuction(player);
             }

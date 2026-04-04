@@ -1,5 +1,6 @@
 # 4.0.0.4 (unreleased)
 
+- **Added** ZelAuction migration - migrate data from ZelAuction plugin to zAuctionHouse V4 using `/ah admin migrate zelauction confirm`
 - **Added** Search system - players can search items by name, material, lore, or seller directly from the auction house GUI or via `/ah search <query>`
 - **Added** `ZAUCTIONHOUSE_SEARCH` button - opens a chat-based search input with support for advanced filter operators
 - **Added** `ZAUCTIONHOUSE_CLEAR_SEARCH` button - clears the active search filter, only visible when a search is active

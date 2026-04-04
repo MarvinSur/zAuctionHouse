@@ -236,25 +236,8 @@ items:
         - "#8c8c8c  seller #76CDCD= #8c8c8cNotch"
         - "#8c8c8c  name #76CDCD~ #8c8c8cDiamond"
         - ""
-        - "#8c8c8c• #2CCED2Clicca #92ffffper cercare"
-
-  #---------------------------------------------------------------------------
-  # PULSANTE CANCELLA RICERCA
-  #---------------------------------------------------------------------------
-  # Cancella la ricerca attiva. Visibile solo quando una ricerca è attiva.
-
-  clear-search:
-    type: ZAUCTIONHOUSE_CLEAR_SEARCH
-    slot: 48
-    is-permanent: true
-    item:
-      material: BARRIER
-      name: "#ff6b6b<bold>ᴄᴀɴᴄᴇʟʟᴀ ʀɪᴄᴇʀᴄᴀ"
-      lore:
-        - ""
-        - "#92ffffRicerca#8c8c8c: #2CCED2%search_query%"
-        - ""
-        - "#8c8c8c• #2CCED2Clicca #92ffffper cancellare"
+        - "#8c8c8c- #2CCED2Clic sinistro #92ffffper cercare"
+        - "#8c8c8c- #2CCED2Clic destro #92ffffper cancellare la ricerca"
 
   #---------------------------------------------------------------------------
   # PULSANTE AGGIORNA

@@ -238,6 +238,11 @@ commands:
     aliases:
       - search
       - s
+    arguments:
+      - name: query
+        display-name: query
+        required: true
+        auto-completion: []
 
   # คำสั่งเปิดหน้า: /zauctionhouse page <number>
   # เปิด auction ที่หน้าที่กำหนดโดยตรง

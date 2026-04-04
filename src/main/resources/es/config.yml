@@ -267,6 +267,11 @@ commands:
       - search
       - s
       - buscar        # Espanol
+    arguments:
+      - name: query
+        display-name: consulta
+        required: true
+        auto-completion: []
 
   # Comando page: /zauctionhouse page <numero>
   # Abre la casa de subastas directamente en una pagina especifica.

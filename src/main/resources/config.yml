@@ -267,6 +267,11 @@ commands:
       - search
       - s
       - rechercher   # French: "to search"
+    arguments:
+      - name: query
+        display-name: query
+        required: true
+        auto-completion: []
 
   # Page command: /zauctionhouse page <number>
   # Opens the auction house at a specific page directly.

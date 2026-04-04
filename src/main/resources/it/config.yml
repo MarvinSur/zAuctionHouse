@@ -267,6 +267,11 @@ commands:
       - search
       - s
       - cerca          # Italiano
+    arguments:
+      - name: query
+        display-name: ricerca
+        required: true
+        auto-completion: []
 
   # Comando page: /zauctionhouse page <numero>
   # Apre la casa d'aste direttamente a una pagina specifica.

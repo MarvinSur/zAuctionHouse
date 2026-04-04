@@ -267,6 +267,11 @@ commands:
       - search
       - s
       - rechercher
+    arguments:
+      - name: query
+        display-name: recherche
+        required: true
+        auto-completion: []
 
   # Commande page: /zauctionhouse page <numéro>
   # Ouvre l'hôtel des ventes directement à une page spécifique.

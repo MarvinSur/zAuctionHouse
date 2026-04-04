@@ -13,13 +13,24 @@ public class CommandAuctionSearch extends VCommand {
 
         this.setPermission(Permission.ZAUCTIONHOUSE_USE);
         this.setDescription(Message.COMMAND_DESCRIPTION_AUCTION_SEARCH);
-        this.addSubCommand(plugin.getConfiguration().loadCommandAliases("commands.search."));
         this.setConsoleCanUse(false);
         this.setIgnoreArgs(true);
+
+        var commandConfig = plugin.getConfiguration().loadSimpleCommandConfiguration("commands.search.");
+        this.addSubCommand(commandConfig.aliases());
+
+        for (var argument : commandConfig.arguments()) {
+            if (argument.required()) {
+                this.addRequireArg(argument.displayName(), (sender, args) -> argument.autoCompletion());
+            } else {
+                this.addOptionalArg(argument.displayName(), (sender, args) -> argument.autoCompletion());
+            }
+        }
     }
 
     @Override
     protected CommandType perform(AuctionPlugin plugin) {
+
         if (this.args.length < 2) {
             return CommandType.SYNTAX_ERROR;
         }

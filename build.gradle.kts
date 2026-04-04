@@ -84,7 +84,6 @@ dependencies {
 
 tasks {
     shadowJar {
-
         relocate("fr.maxlego08.sarah", "fr.maxlego08.zauctionhouse.libs.sarah")
         relocate("com.tcoded.folialib", "fr.maxlego08.zauctionhouse.libs.folialib")
         relocate("fr.traqueur.currencies", "fr.maxlego08.zauctionhouse.libs.currencies")

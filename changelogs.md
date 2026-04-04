@@ -1,4 +1,6 @@
-# 4.0.0.4 (unreleased)
+# 4.0.0.5 (unreleased)
+
+# 4.0.0.4 
 
 - **Added** ZelAuction migration - migrate data from ZelAuction plugin to zAuctionHouse V4 using `/ah admin migrate zelauction confirm`
 - **Added** Search system - players can search items by name, material, lore, or seller directly from the auction house GUI or via `/ah search <query>`

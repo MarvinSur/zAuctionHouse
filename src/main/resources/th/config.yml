@@ -89,6 +89,17 @@ performance-debug:
 #   "MM-dd-yyyy hh:mm a"  → "12-25-2024 02:30 PM"
 date-format: dd/MM/yyyy HH:mm:ss
 
+# โซนเวลาที่ใช้แสดงวันที่
+# ใช้ Java TimeZone IDs ตั้งค่าเป็น "auto" เพื่อใช้โซนเวลาเริ่มต้นของเซิร์ฟเวอร์
+# ตัวอย่าง:
+#   "auto"              → ใช้โซนเวลาเริ่มต้นของเซิร์ฟเวอร์
+#   "UTC"               → เวลาสากลเชิงพิกัด
+#   "Europe/Paris"      → เวลายุโรปกลาง (UTC+1/UTC+2)
+#   "America/New_York"  → เวลาตะวันออก (UTC-5/UTC-4)
+#   "Asia/Bangkok"      → เวลามาตรฐานไทย (UTC+7)
+# รายชื่อทั้งหมด: https://docs.oracle.com/javase/8/docs/api/java/util/TimeZone.html
+timezone: auto
+
 #=============================================================================
 # DATABASE CONFIGURATION (ฐานข้อมูล)
 #=============================================================================

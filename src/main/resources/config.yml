@@ -102,6 +102,17 @@ performance-debug:
 #   "MM-dd-yyyy hh:mm a"  → "12-25-2024 02:30 PM"
 date-format: dd/MM/yyyy HH:mm:ss
 
+# Timezone used for displaying dates.
+# Uses Java TimeZone IDs. Set to "auto" to use the server's default timezone.
+# Examples:
+#   "auto"              → Uses the server's default timezone
+#   "UTC"               → Coordinated Universal Time
+#   "Europe/Paris"      → Central European Time (UTC+1/UTC+2)
+#   "America/New_York"  → Eastern Time (UTC-5/UTC-4)
+#   "Asia/Tokyo"        → Japan Standard Time (UTC+9)
+# Full list: https://docs.oracle.com/javase/8/docs/api/java/util/TimeZone.html
+timezone: auto
+
 #=============================================================================
 # DATABASE CONFIGURATION
 #=============================================================================

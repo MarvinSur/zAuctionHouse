@@ -102,6 +102,17 @@ performance-debug:
 #   "MM-dd-yyyy hh:mm a"  → "12-25-2024 02:30 PM"
 date-format: dd/MM/yyyy HH:mm:ss
 
+# Fuseau horaire utilisé pour l'affichage des dates.
+# Utilise les identifiants Java TimeZone. Définir à "auto" pour utiliser le fuseau horaire par défaut du serveur.
+# Exemples:
+#   "auto"              → Utilise le fuseau horaire par défaut du serveur
+#   "UTC"               → Temps Universel Coordonné
+#   "Europe/Paris"      → Heure d'Europe Centrale (UTC+1/UTC+2)
+#   "America/New_York"  → Heure de l'Est (UTC-5/UTC-4)
+#   "Asia/Tokyo"        → Heure Standard du Japon (UTC+9)
+# Liste complète: https://docs.oracle.com/javase/8/docs/api/java/util/TimeZone.html
+timezone: auto
+
 #=============================================================================
 # CONFIGURATION DE BASE DE DONNÉES
 #=============================================================================

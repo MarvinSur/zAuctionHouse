@@ -102,6 +102,17 @@ performance-debug:
 #   "MM-dd-yyyy hh:mm a"  → "12-25-2024 02:30 PM"
 date-format: dd/MM/yyyy HH:mm:ss
 
+# Zona horaria utilizada para mostrar fechas.
+# Utiliza los identificadores de Java TimeZone. Establece "auto" para usar la zona horaria predeterminada del servidor.
+# Ejemplos:
+#   "auto"              → Usa la zona horaria predeterminada del servidor
+#   "UTC"               → Tiempo Universal Coordinado
+#   "Europe/Paris"      → Hora Central Europea (UTC+1/UTC+2)
+#   "America/New_York"  → Hora del Este (UTC-5/UTC-4)
+#   "Asia/Tokyo"        → Hora Estándar de Japón (UTC+9)
+# Lista completa: https://docs.oracle.com/javase/8/docs/api/java/util/TimeZone.html
+timezone: auto
+
 #=============================================================================
 # CONFIGURACION DE BASE DE DATOS
 #=============================================================================

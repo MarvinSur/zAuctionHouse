@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 public class MainConfiguration extends YamlLoader implements Configuration {
 
@@ -97,6 +98,10 @@ public class MainConfiguration extends YamlLoader implements Configuration {
         this.cooldownConfiguration = CooldownConfiguration.of(plugin, config);
         this.inventoryCommandConfigurations = InventoryCommandConfiguration.of(plugin, config);
         this.dateFormat = new SimpleDateFormat(config.getString("date-format", "dd/MM/yyyy HH:mm:ss"));
+        String timezone = config.getString("timezone", "auto");
+        if (timezone != null && !timezone.equalsIgnoreCase("auto")) {
+            this.dateFormat.setTimeZone(TimeZone.getTimeZone(timezone));
+        }
         this.sellInventoryEnabled = config.getBoolean("commands.sell.enable-sell-inventory", false);
 
         // Validate critical configurations

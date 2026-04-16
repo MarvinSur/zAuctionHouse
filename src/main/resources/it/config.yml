@@ -102,6 +102,17 @@ performance-debug:
 #   "MM-dd-yyyy hh:mm a"  → "12-25-2024 02:30 PM"
 date-format: dd/MM/yyyy HH:mm:ss
 
+# Fuso orario utilizzato per la visualizzazione delle date.
+# Utilizza gli identificatori Java TimeZone. Imposta "auto" per usare il fuso orario predefinito del server.
+# Esempi:
+#   "auto"              → Usa il fuso orario predefinito del server
+#   "UTC"               → Tempo Universale Coordinato
+#   "Europe/Paris"      → Ora dell'Europa Centrale (UTC+1/UTC+2)
+#   "America/New_York"  → Ora Orientale (UTC-5/UTC-4)
+#   "Asia/Tokyo"        → Ora Standard del Giappone (UTC+9)
+# Lista completa: https://docs.oracle.com/javase/8/docs/api/java/util/TimeZone.html
+timezone: auto
+
 #=============================================================================
 # CONFIGURAZIONE DATABASE
 #=============================================================================

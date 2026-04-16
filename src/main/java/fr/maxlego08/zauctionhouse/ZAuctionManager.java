@@ -890,7 +890,7 @@ public class ZAuctionManager extends ZUtils implements AuctionManager {
         // Wait for the sorted cache to be rebuilt before updating inventories,
         // otherwise players get stale data cached from a dirty sorted cache
         this.sortedItemsCache.ensureCacheValidAsync().thenRun(() -> {
-            this.plugin.getScheduler().runAsync(w -> {
+            this.plugin.getScheduler().runNextTick(w -> {
                 for (Player onlinePlayer : this.plugin.getServer().getOnlinePlayers()) {
 
                     if (onlinePlayer == ignoredPlayer) continue;

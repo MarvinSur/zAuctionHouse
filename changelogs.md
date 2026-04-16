@@ -6,6 +6,7 @@
 - **Added** `%price-price-without-decimal%` placeholder - displays the price without decimals in item lore
 - **Added** `/ah admin forceopen` can now be executed from the console
 - **Fixed** `/ah admin open` and `/ah admin history` tab completion no longer loads all offline players, preventing lag on servers with many players
+- **Fixed** `updateListedItems` crash on Folia/Canvas - inventory holder access was running on an async thread instead of the main tick thread
 
 ### `ZAUCTIONHOUSE_CLAIM` button
 

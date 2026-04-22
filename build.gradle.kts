@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "fr.maxlego08.zauctionhouse"
-version = "4.0.0.4"
+version = "4.0.0.5"
 
 extra.set("targetFolder", file("target/"))
 extra.set("apiFolder", file("target-api/"))

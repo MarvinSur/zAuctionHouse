@@ -1,4 +1,6 @@
-# 4.0.0.5 (unreleased)
+# 4.0.0.6 (unreleased)
+
+# 4.0.0.5
 
 - **Added** `ZAUCTIONHOUSE_CLAIM` button - displays pending money per economy with dynamic placeholders and allows players to claim directly from the auction GUI
 - **Added** Configurable `loading-item` for the claim button, shown while pending money data is being fetched

@@ -29,6 +29,12 @@ public class ExpireService implements AuctionExpireService {
     @Override
     public void processExpiredItem(Item item, StorageType storageType) {
 
+        // Guard: skip items already processed by another server (e.g., claimed via Redis cluster)
+        if (item.getStatus() == ItemStatus.DELETED) {
+            this.auctionManager.removeItem(storageType, item);
+            return;
+        }
+
         this.plugin.getScheduler().runNextTick(w -> {
             var event = new AuctionExpireEvent(List.of(item), storageType);
             event.callEvent();
@@ -91,11 +97,23 @@ public class ExpireService implements AuctionExpireService {
     public void processExpiredItems(List<Item> items, StorageType storageType) {
         if (items.isEmpty()) return;
 
+        // Guard: filter out items already processed by another server (e.g., claimed via Redis cluster)
+        List<Item> filtered = new ArrayList<>();
+        for (Item item : items) {
+            if (item.getStatus() == ItemStatus.DELETED) {
+                this.auctionManager.removeItem(storageType, item);
+            } else {
+                filtered.add(item);
+            }
+        }
+        if (filtered.isEmpty()) return;
+
         var configuration = this.plugin.getConfiguration();
         var storageManager = this.plugin.getStorageManager();
 
+        List<Item> validItems = filtered;
         this.plugin.getScheduler().runNextTick(w -> {
-            var event = new AuctionExpireEvent(items, storageType);
+            var event = new AuctionExpireEvent(validItems, storageType);
             event.callEvent();
         });
 
@@ -103,7 +121,7 @@ public class ExpireService implements AuctionExpireService {
 
         // Clear player caches for online sellers
         Set<OfflinePlayer> offlinePlayers = new HashSet<>();
-        for (Item item : items) {
+        for (Item item : validItems) {
             var offlineSeller = item.getSeller();
             if (offlineSeller.isOnline() && !offlinePlayers.contains(offlineSeller)) {
                 offlinePlayers.add(offlineSeller);
@@ -120,7 +138,7 @@ public class ExpireService implements AuctionExpireService {
             List<Item> offlineSellerItems = new ArrayList<>();
 
             // Remove all items from LISTED storage and separate by seller online status
-            for (Item item : items) {
+            for (Item item : validItems) {
                 item.setStatus(ItemStatus.REMOVED);
                 this.auctionManager.removeItem(StorageType.LISTED, item);
                 if (item.getSeller().isOnline()) {
@@ -182,13 +200,13 @@ public class ExpireService implements AuctionExpireService {
 
         } else {
             // Items from EXPIRED storage go to DELETED
-            for (Item item : items) {
+            for (Item item : validItems) {
                 item.setStatus(ItemStatus.DELETED);
             }
 
             // Batch update all items to DELETED
             Map<StorageType, List<Item>> batchUpdate = new EnumMap<>(StorageType.class);
-            batchUpdate.put(StorageType.DELETED, items);
+            batchUpdate.put(StorageType.DELETED, validItems);
             storageManager.updateItems(batchUpdate);
         }
     }

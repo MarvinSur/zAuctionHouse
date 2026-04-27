@@ -531,8 +531,7 @@ public class ZAuctionManager extends ZUtils implements AuctionManager {
             openMainAuction(player, getCache(player).get(PlayerCacheKey.CURRENT_PAGE, 1));
         } else {
             this.plugin.getScheduler().runNextTick(w -> {
-                if (player.isOnline())
-                    player.closeInventory();
+                if (player.isOnline()) player.closeInventory();
             });
         }
 
@@ -564,8 +563,7 @@ public class ZAuctionManager extends ZUtils implements AuctionManager {
             this.updateInventory(player);
         } else {
             this.plugin.getScheduler().runNextTick(w -> {
-                if (player.isOnline())
-                    player.closeInventory();
+                if (player.isOnline()) player.closeInventory();
             });
         }
 
@@ -594,8 +592,7 @@ public class ZAuctionManager extends ZUtils implements AuctionManager {
             this.updateInventory(player);
         } else {
             this.plugin.getScheduler().runNextTick(w -> {
-                if (player.isOnline())
-                    player.closeInventory();
+                if (player.isOnline()) player.closeInventory();
             });
         }
 
@@ -624,8 +621,7 @@ public class ZAuctionManager extends ZUtils implements AuctionManager {
             this.updateInventory(player);
         } else {
             this.plugin.getScheduler().runNextTick(w -> {
-                if (player.isOnline())
-                    player.closeInventory();
+                if (player.isOnline()) player.closeInventory();
             });
         }
 
@@ -839,8 +835,7 @@ public class ZAuctionManager extends ZUtils implements AuctionManager {
             openMainAuction(player, cache.get(PlayerCacheKey.CURRENT_PAGE, 1));
         } else {
             this.plugin.getScheduler().runNextTick(w -> {
-                if (player.isOnline())
-                    player.closeInventory();
+                if (player.isOnline()) player.closeInventory();
             });
         }
 
@@ -890,26 +885,27 @@ public class ZAuctionManager extends ZUtils implements AuctionManager {
         // Wait for the sorted cache to be rebuilt before updating inventories,
         // otherwise players get stale data cached from a dirty sorted cache
         this.sortedItemsCache.ensureCacheValidAsync().thenRun(() -> {
-            this.plugin.getScheduler().runNextTick(w -> {
-                for (Player onlinePlayer : this.plugin.getServer().getOnlinePlayers()) {
+            for (Player onlinePlayer : this.plugin.getServer().getOnlinePlayers()) {
 
-                    if (onlinePlayer == ignoredPlayer) continue;
+                if (onlinePlayer == ignoredPlayer) return;
+
+                this.plugin.getScheduler().runAtEntity(onlinePlayer, w -> {
 
                     var topInventory = CompatibilityUtil.getTopInventory(onlinePlayer);
-                    if (topInventory == null) continue;
+                    if (topInventory == null) return;
 
                     var holder = topInventory.getHolder();
                     if (holder instanceof InventoryEngine inventoryEngine) {
                         var buttons = inventoryEngine.getMenuInventory().getButtons(ListedItemsButton.class);
-                        if (buttons.isEmpty()) continue;
+                        if (buttons.isEmpty()) return;
 
                         var listedItemsButton = buttons.getFirst();
                         listedItemsButton.updateInventory(onlinePlayer, inventoryEngine, item, added, this);
                     }
 
                     if (!added) removeFromCache(onlinePlayer, item);
-                }
-            });
+                });
+            }
         });
     }
 

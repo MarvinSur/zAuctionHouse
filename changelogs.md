@@ -1,4 +1,6 @@
-# 4.0.0.6 (unreleased)
+# 4.0.0.7 (unreleased)
+
+# 4.0.0.6
 
 - **Added** `ZAUCTIONHOUSE_COMBINED_ITEMS` button - combines selling, expired, and purchased items into a single paginated view. Each source is individually togglable via `include-selling`, `include-expired`, and `include-purchased`. Click actions automatically adapt to the item's storage type (cancel listing, claim expired, claim purchased). Each item type uses its own lore configuration from `config.yml`
 - **Fixed** Item duplication exploit in multi-server (Redis) setups - removing a listing on one server and claiming the expired item could leave a ghost entry on the original server, allowing the item to be claimed again after natural expiration

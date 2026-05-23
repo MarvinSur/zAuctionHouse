@@ -1,4 +1,6 @@
-# 4.0.0.7 (unreleased)
+# 4.0.0.8 (unreleased)
+
+# 4.0.0.7 
 
 - **Added** `banned-rules` support for categories - allows excluding specific items from a category even if they match the inclusion rules. For example, a netherite hoe would normally appear in the "Tools" category, but if it has a specific CustomModelData (e.g., 300), it can be excluded using a banned rule. Uses the same rule types as regular rules (material, tag, lore, custom-model-data, etc.)
 - **Added** Broadcast system - sends messages to all online players when items are listed or purchased. Configurable per event type (sell/purchase) with options to exclude the seller/buyer. Supports per-category message overrides using MiniMessage format with `%seller%`, `%buyer%`, `%items%`, `%price%`, `%category%` placeholders. Disabled by default, enable in `config.yml` under `broadcast`

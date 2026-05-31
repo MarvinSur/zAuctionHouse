@@ -81,6 +81,19 @@ public interface AuctionClusterBridge {
     CompletableFuture<Void> removeItem(Item item, StorageType storageType);
 
     /**
+     * Removes an item from the specified storage type across the cluster,
+     * including the destination storage type so other nodes know the final state.
+     *
+     * @param item                 item to remove
+     * @param sourceStorageType    storage bucket the item was removed from
+     * @param destinationStorageType storage bucket the item was moved to (e.g. DELETED or EXPIRED), or null if unknown
+     * @return future completing after the deletion is processed
+     */
+    default CompletableFuture<Void> removeItem(Item item, StorageType sourceStorageType, StorageType destinationStorageType) {
+        return removeItem(item, sourceStorageType);
+    }
+
+    /**
      * Indicates whether this bridge operates in a distributed (multi-server) environment.
      * When {@code true}, money deposits to offline sellers should be deferred to the claim
      * system rather than executed locally, because the seller may have never joined this server

@@ -861,7 +861,7 @@ action:
 auto-claim:
   # Si true, l'argent en attente est automatiquement déposé quand le joueur se connecte
   # Si false, les joueurs doivent exécuter manuellement /ah claim pour recevoir leur argent
-  enable: false
+  enable: true
 
   # Délai en ticks avant l'auto-réclamation à la connexion (20 ticks = 1 seconde)
   # Ceci laisse le temps au joueur de charger complètement avant les transactions.

@@ -57,7 +57,7 @@ public class ClaimButton extends Button {
             cache.set(PlayerCacheKey.PENDING_MONEY_DATA, pendingByEconomy);
             cache.set(PlayerCacheKey.PENDING_MONEY_LOADING, false);
 
-            this.plugin.getScheduler().runNextTick(task -> {
+            this.plugin.getScheduler().runAtEntity(player, task -> {
                 if (player.isOnline()) {
                     inventory.getSpigotInventory().setItem(getSlot(), this.getCustomItemStack(player, false, new Placeholders()));
                 }
@@ -118,7 +118,7 @@ public class ClaimButton extends Button {
         cache.remove(PlayerCacheKey.PENDING_MONEY_DATA, PlayerCacheKey.PENDING_MONEY_LOADING);
 
         this.plugin.getAuctionManager().getClaimService().claimMoney(player).thenRun(() -> {
-            this.plugin.getScheduler().runNextTick(task -> {
+            this.plugin.getScheduler().runAtEntity(player, task -> {
                 if (player.isOnline()) {
                     this.plugin.getAuctionManager().updateInventory(player);
                 }

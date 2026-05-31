@@ -51,7 +51,7 @@ public class CommandAuctionAdminOpen extends VCommand {
             cache.set(PlayerCacheKey.ADMIN_TARGET_UUID, uuid);
             cache.set(PlayerCacheKey.ADMIN_TARGET_NAME, targetName);
 
-            this.plugin.getScheduler().runNextTick(w -> this.plugin.getInventoriesLoader().openInventory(this.player, inventories));
+            this.plugin.getScheduler().runAtEntity(this.player, w -> this.plugin.getInventoriesLoader().openInventory(this.player, inventories));
             this.auctionManager.message(this.player, Message.ADMIN_OPEN_INVENTORY, "%target%", targetName, "%type%", type);
         });
         return CommandType.SUCCESS;

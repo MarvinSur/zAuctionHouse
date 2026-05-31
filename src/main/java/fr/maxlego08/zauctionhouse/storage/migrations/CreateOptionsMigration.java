@@ -8,7 +8,7 @@ public class CreateOptionsMigration extends Migration {
     @Override
     public void up() {
         create(Tables.OPTIONS, table -> {
-            table.uuid("player_unique_id").primary().foreignKey(Tables.PLAYERS, "unique_id", true);
+            table.string("player_unique_id", 36).primary().foreignKey(Tables.PLAYERS, "unique_id", true);
             table.string("option_name", 64).primary();
             table.longText("option_value");
             table.timestamps();

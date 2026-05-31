@@ -57,7 +57,7 @@ public class CommandAuctionAdminForceOpen extends VCommand {
         }
 
         Inventories targetInventory = inventory;
-        this.plugin.getScheduler().runNextTick(w -> this.plugin.getInventoriesLoader().openInventory(target, targetInventory, page));
+        this.plugin.getScheduler().runAtEntity(target, w -> this.plugin.getInventoriesLoader().openInventory(target, targetInventory, page));
         message(this.plugin, this.sender, Message.ADMIN_FORCEOPEN_INVENTORY, "%target%", target.getName(), "%inventory%", targetInventory.getFileName(), "%page%", String.valueOf(page));
 
         return CommandType.SUCCESS;

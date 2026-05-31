@@ -46,7 +46,7 @@ public class CommandAuctionAdminHistory extends VCommand {
             cache.set(PlayerCacheKey.ADMIN_TARGET_UUID, uuid);
             cache.set(PlayerCacheKey.ADMIN_TARGET_NAME, targetName);
 
-            this.plugin.getScheduler().runNextTick(w -> {
+            this.plugin.getScheduler().runAtEntity(this.player, w -> {
                 if (this.player.isOnline()) {
                     this.plugin.getInventoriesLoader().openInventory(this.player, Inventories.ADMIN_HISTORY_MAIN);
                 }

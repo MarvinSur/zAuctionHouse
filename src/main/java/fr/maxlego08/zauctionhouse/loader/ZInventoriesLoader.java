@@ -268,11 +268,7 @@ public class ZInventoriesLoader extends ZUtils implements InventoriesLoader {
         }
 
         var inventory = optional.get();
-        if (this.plugin.getScheduler().isGlobalTickThread()) {
-            this.inventoryManager.openInventoryWithOldInventories(player, inventory, page);
-        } else {
-            this.plugin.getScheduler().runNextTick(w -> this.inventoryManager.openInventoryWithOldInventories(player, inventory, page));
-        }
+        this.plugin.getScheduler().runAtEntity(player, w -> this.inventoryManager.openInventoryWithOldInventories(player, inventory, page));
 
         this.performanceDebug.end("openInventory." + inventories.getFileName(), start, "for=" + player.getName() + ", page=" + page);
     }

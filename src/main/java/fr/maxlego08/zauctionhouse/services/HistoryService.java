@@ -94,7 +94,7 @@ public class HistoryService extends AuctionService implements AuctionHistoryServ
             };
 
             if (delay <= 0) {
-                this.plugin.getScheduler().runNextTick(task -> notifyTask.run());
+                this.plugin.getScheduler().runAtEntity(player, task -> notifyTask.run());
             } else {
                 this.plugin.getScheduler().runLater(task -> notifyTask.run(), delay);
             }

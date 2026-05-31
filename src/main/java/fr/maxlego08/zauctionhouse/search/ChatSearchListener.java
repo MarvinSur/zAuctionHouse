@@ -38,7 +38,7 @@ public class ChatSearchListener implements Listener {
         String query = PlainTextComponentSerializer.plainText().serialize(event.message());
         Player player = event.getPlayer();
 
-        this.plugin.getScheduler().runNextTick(w -> {
+        this.plugin.getScheduler().runAtEntity(player, w -> {
             if (player.isOnline()) {
                 this.plugin.getAuctionManager().startSearch(player, query);
             }

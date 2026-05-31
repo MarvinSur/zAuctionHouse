@@ -111,7 +111,7 @@ public class AdminLogsButton extends LoadingButton {
             cache.set(PlayerCacheKey.ADMIN_LOGS_DATA, logs);
             cache.set(PlayerCacheKey.ADMIN_LOGS_LOADING, false);
 
-            this.plugin.getScheduler().runNextTick(w -> {
+            this.plugin.getScheduler().runAtEntity(player, w -> {
                 if (player.isOnline()) {
                     this.plugin.getInventoriesLoader().getInventoryManager().updateInventory(player);
                 }

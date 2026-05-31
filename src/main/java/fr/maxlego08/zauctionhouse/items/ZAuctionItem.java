@@ -67,7 +67,12 @@ public class ZAuctionItem extends ZItem implements AuctionItem {
 
     private ItemStack getItemStack(Player player) {
         if (this.itemStacks.size() == 1) {
-            var itemStack = this.itemStacks.getFirst().clone();
+            var first = this.itemStacks.getFirst();
+            if (first == null) {
+                this.plugin.getLogger().warning("Item #" + this.id + " has a null ItemStack, the item data may be corrupted.");
+                return new ItemStack(org.bukkit.Material.BARRIER);
+            }
+            var itemStack = first.clone();
             if (this.plugin.getConfiguration().getItemLore().forceAmountOne()) {
                 itemStack.setAmount(1);
             }
@@ -85,12 +90,20 @@ public class ZAuctionItem extends ZItem implements AuctionItem {
 
     @Override
     public int getAmount() {
-        return this.itemStacks.size() == 1 ? this.itemStacks.getFirst().getAmount() : 0;
+        if (this.itemStacks.size() == 1) {
+            var first = this.itemStacks.getFirst();
+            return first != null ? first.getAmount() : 0;
+        }
+        return 0;
     }
 
     @Override
     public String getTranslationKey() {
-        return this.itemStacks.size() == 1 ? this.itemStacks.getFirst().getType().translationKey() : "";
+        if (this.itemStacks.size() == 1) {
+            var first = this.itemStacks.getFirst();
+            return first != null ? first.getType().translationKey() : "";
+        }
+        return "";
     }
 
     @Override

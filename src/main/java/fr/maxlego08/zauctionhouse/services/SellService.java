@@ -79,8 +79,8 @@ public class SellService extends ZUtils implements AuctionSellService {
                 return;
             }
 
-            // Return to main thread to verify items and remove them
-            this.plugin.getScheduler().runNextTick(task -> {
+            // Return to entity thread to verify items and remove them
+            this.plugin.getScheduler().runAtEntity(player, task -> {
 
                 if (!player.isOnline()) {
                     if (taxResult.hasTax()) {
@@ -329,8 +329,8 @@ public class SellService extends ZUtils implements AuctionSellService {
         // Check if player has enough money to pay the tax asynchronously
         return auctionEconomy.has(player.getUniqueId(), taxResult.taxAmount()).thenApply(hasMoney -> {
             if (!hasMoney) {
-                // Send message on main thread
-                this.plugin.getScheduler().runNextTick(task -> {
+                // Send message on entity thread
+                this.plugin.getScheduler().runAtEntity(player, task -> {
                     message(this.plugin, player, Message.TAX_INSUFFICIENT_FUNDS, "%tax%", economyManager.format(auctionEconomy, taxResult.taxAmount()));
                 });
                 return null;
@@ -339,8 +339,8 @@ public class SellService extends ZUtils implements AuctionSellService {
             // Withdraw the tax
             auctionEconomy.withdraw(player.getUniqueId(), taxResult.taxAmount(), "Sell tax (zAuctionHouse)");
 
-            // Send appropriate messages on main thread
-            this.plugin.getScheduler().runNextTick(task -> {
+            // Send appropriate messages on entity thread
+            this.plugin.getScheduler().runAtEntity(player, task -> {
                 if (taxResult.isReduced()) {
                     message(this.plugin, player, Message.TAX_REDUCED, "%percentage%", String.format("%.1f", 100 - taxResult.reductionPercentage()));
                 }

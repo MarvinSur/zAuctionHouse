@@ -49,7 +49,7 @@ public class HistoryItemsButton extends LoadingButton {
                     }
                     cache.set(PlayerCacheKey.HISTORY_DATA, history);
                     cache.set(PlayerCacheKey.HISTORY_LOADING, false);
-                    this.plugin.getScheduler().runNextTick(task -> {
+                    this.plugin.getScheduler().runAtEntity(player, task -> {
                         if (player.isOnline()) {
                             this.plugin.getAuctionManager().getHistoryService().openHistoryInventory(player);
                         }

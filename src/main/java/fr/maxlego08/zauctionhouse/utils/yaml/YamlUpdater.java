@@ -1,5 +1,6 @@
 package fr.maxlego08.zauctionhouse.utils.yaml;
 
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
@@ -70,7 +71,22 @@ public class YamlUpdater {
             List<String> targetLines = readLines(targetFile);
 
             YamlConfiguration defaultConfig = loadConfigFromLines(defaultLines);
-            YamlConfiguration targetConfig = YamlConfiguration.loadConfiguration(targetFile);
+
+            YamlConfiguration targetConfig = new YamlConfiguration();
+            try {
+                targetConfig.load(targetFile);
+            } catch (InvalidConfigurationException e) {
+                plugin.getLogger().warning(targetPath + " is corrupted and cannot be parsed. Backing up and replacing with defaults.");
+                backupAndReplace(targetFile, defaultLines);
+                return true;
+            }
+
+            // Safety check: if the file has content but no keys were loaded, it's likely corrupted
+            if (targetConfig.getKeys(false).isEmpty() && targetFile.length() > 0) {
+                plugin.getLogger().warning(targetPath + " has content but no valid YAML keys. Backing up and replacing with defaults.");
+                backupAndReplace(targetFile, defaultLines);
+                return true;
+            }
 
             Set<String> missingKeys = findMissingKeys(defaultConfig, targetConfig);
 
@@ -91,6 +107,19 @@ public class YamlUpdater {
             plugin.getLogger().log(Level.SEVERE, "Error updating " + targetPath, e);
             return false;
         }
+    }
+
+    /**
+     * Backs up a corrupted file and replaces it with default content.
+     */
+    private void backupAndReplace(File targetFile, List<String> defaultLines) throws IOException {
+        File backupFile = new File(targetFile.getParentFile(), targetFile.getName() + ".backup");
+        if (backupFile.exists()) {
+            backupFile.delete();
+        }
+        Files.copy(targetFile.toPath(), backupFile.toPath());
+        writeLines(targetFile, defaultLines);
+        plugin.getLogger().info("Corrupted file backed up as " + backupFile.getName() + " and replaced with defaults.");
     }
 
     /**
@@ -305,6 +334,16 @@ public class YamlUpdater {
                 int blockEnd = findKeyBlockEnd(lines, i, indent);
                 for (int j = i + 1; j < blockEnd; j++) {
                     block.lines.add(lines.get(j));
+                }
+
+                // Trim trailing blank/comment lines to avoid duplication with the next key's pendingComments
+                while (block.lines.size() > 1) {
+                    String lastLine = block.lines.get(block.lines.size() - 1);
+                    if (lastLine.trim().isEmpty() || lastLine.trim().startsWith("#")) {
+                        block.lines.remove(block.lines.size() - 1);
+                    } else {
+                        break;
+                    }
                 }
 
                 blocks.put(fullPath, block);

@@ -862,7 +862,7 @@ action:
 auto-claim:
   # Se true, il denaro in sospeso viene automaticamente depositato quando il giocatore si connette
   # Se false, i giocatori devono eseguire manualmente /ah claim per ricevere i loro soldi
-  enable: false
+  enable: true
 
   # Ritardo in tick prima dell'auto-riscossione alla connessione (20 tick = 1 secondo)
   # Questo lascia tempo al giocatore di caricarsi completamente prima delle transazioni.

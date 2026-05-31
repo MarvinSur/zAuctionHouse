@@ -857,7 +857,7 @@ action:
 auto-claim:
   # If true, pending money is automatically deposited when the player joins
   # If false, players must manually run /ah claim to receive their money
-  enable: false
+  enable: true
 
   # Delay in ticks before auto-claiming on join (20 ticks = 1 second)
   # This allows time for the player to load fully before transactions.

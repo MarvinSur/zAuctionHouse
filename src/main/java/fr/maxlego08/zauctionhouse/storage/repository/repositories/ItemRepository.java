@@ -49,7 +49,10 @@ public class ItemRepository extends Repository {
     }
 
     public Optional<ItemDTO> select(int id) {
-        return select(ItemDTO.class, schema -> schema.where("id", id)).stream().findFirst();
+        return select(ItemDTO.class, schema -> {
+            schema.where("id", id);
+            schema.where("storage_type", "!=", StorageType.DELETED.name());
+        }).stream().findFirst();
     }
 
     public void updateItems(Map<StorageType, List<Item>> itemsByStorageType) {

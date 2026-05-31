@@ -56,7 +56,10 @@ public class RemoveService extends AuctionService implements AuctionRemoveServic
             return CompletableFuture.completedFuture(RemoveResult.failure("Item not available", RemoveFailReason.INVALID_ITEM_STATUS));
         }
 
-        return executeRemoval(ItemStatus.IS_BEING_REMOVED, player, item, () -> manager.updateInventory(player), () -> manager.removeListedItem(player, item), StorageType.LISTED);
+        var listedConfig = this.plugin.getConfiguration().getActions().listed();
+        StorageType destination = (listedConfig.giveItem() && item.canReceiveItem(player)) ? StorageType.DELETED : StorageType.EXPIRED;
+
+        return executeRemoval(ItemStatus.IS_BEING_REMOVED, player, item, () -> manager.updateInventory(player), () -> manager.removeListedItem(player, item), StorageType.LISTED, destination);
     }
 
     @Override
@@ -90,7 +93,7 @@ public class RemoveService extends AuctionService implements AuctionRemoveServic
             return CompletableFuture.completedFuture(RemoveResult.failure("Item not available", RemoveFailReason.INVALID_ITEM_STATUS));
         }
 
-        return executeRemoval(ItemStatus.IS_BEING_REMOVED, player, item, () -> manager.updateInventory(player), () -> manager.removeSellingItem(player, item), StorageType.LISTED);
+        return executeRemoval(ItemStatus.IS_BEING_REMOVED, player, item, () -> manager.updateInventory(player), () -> manager.removeSellingItem(player, item), StorageType.LISTED, StorageType.DELETED);
     }
 
     @Override
@@ -124,7 +127,7 @@ public class RemoveService extends AuctionService implements AuctionRemoveServic
             return CompletableFuture.completedFuture(RemoveResult.failure("Item not in removed status", RemoveFailReason.INVALID_ITEM_STATUS));
         }
 
-        return executeRemoval(ItemStatus.DELETED, player, item, () -> manager.updateInventory(player), () -> this.plugin.getAuctionManager().removeExpiredItem(player, item), StorageType.EXPIRED);
+        return executeRemoval(ItemStatus.DELETED, player, item, () -> manager.updateInventory(player), () -> this.plugin.getAuctionManager().removeExpiredItem(player, item), StorageType.EXPIRED, StorageType.DELETED);
     }
 
     @Override
@@ -158,7 +161,7 @@ public class RemoveService extends AuctionService implements AuctionRemoveServic
             return CompletableFuture.completedFuture(RemoveResult.failure("Item not in purchased status", RemoveFailReason.INVALID_ITEM_STATUS));
         }
 
-        return executeRemoval(ItemStatus.DELETED, player, item, () -> manager.updateInventory(player), () -> manager.removePurchasedItem(player, item), StorageType.PURCHASED);
+        return executeRemoval(ItemStatus.DELETED, player, item, () -> manager.updateInventory(player), () -> manager.removePurchasedItem(player, item), StorageType.PURCHASED, StorageType.DELETED);
     }
 
     /**
@@ -172,9 +175,9 @@ public class RemoveService extends AuctionService implements AuctionRemoveServic
      * 6. Notify cluster of removal
      * 7. Release lock
      */
-    private CompletableFuture<RemoveResult> executeRemoval(ItemStatus targetStatus, Player player, Item item, Runnable onUnavailable, Supplier<CompletableFuture<Void>> onLocalRemoval, StorageType storageType) {
+    private CompletableFuture<RemoveResult> executeRemoval(ItemStatus targetStatus, Player player, Item item, Runnable onUnavailable, Supplier<CompletableFuture<Void>> onLocalRemoval, StorageType storageType, StorageType destinationStorageType) {
 
-        var context = new RemovalContext(item, targetStatus, storageType, onUnavailable, onLocalRemoval);
+        var context = new RemovalContext(item, targetStatus, storageType, destinationStorageType, onUnavailable, onLocalRemoval);
         var performanceConfig = this.plugin.getConfiguration().getPerformance();
         var clusterBridge = this.plugin.getAuctionClusterBridge();
         var logger = this.plugin.getLogger();
@@ -229,7 +232,7 @@ public class RemoveService extends AuctionService implements AuctionRemoveServic
      */
     private CompletableFuture<Void> executeLocalRemovalStep(RemovalContext context, AuctionClusterBridge clusterBridge, PerformanceConfiguration config) {
 
-        return context.onLocalRemoval.get().thenCompose(v -> clusterBridge.removeItem(context.item, context.storageType).orTimeout(config.notifyItemActionTimeoutMs(), TimeUnit.MILLISECONDS));
+        return context.onLocalRemoval.get().thenCompose(v -> clusterBridge.removeItem(context.item, context.storageType, context.destinationStorageType).orTimeout(config.notifyItemActionTimeoutMs(), TimeUnit.MILLISECONDS));
     }
 
     /**
@@ -295,6 +298,7 @@ public class RemoveService extends AuctionService implements AuctionRemoveServic
         final ItemStatus oldStatus;
         final ItemStatus targetStatus;
         final StorageType storageType;
+        final StorageType destinationStorageType;
         final Runnable onUnavailable;
         final Supplier<CompletableFuture<Void>> onLocalRemoval;
 
@@ -302,11 +306,12 @@ public class RemoveService extends AuctionService implements AuctionRemoveServic
         boolean statusChanged;
         RemoveResult result;
 
-        RemovalContext(Item item, ItemStatus targetStatus, StorageType storageType, Runnable onUnavailable, Supplier<CompletableFuture<Void>> onLocalRemoval) {
+        RemovalContext(Item item, ItemStatus targetStatus, StorageType storageType, StorageType destinationStorageType, Runnable onUnavailable, Supplier<CompletableFuture<Void>> onLocalRemoval) {
             this.item = item;
             this.oldStatus = item.getStatus();
             this.targetStatus = targetStatus;
             this.storageType = storageType;
+            this.destinationStorageType = destinationStorageType;
             this.onUnavailable = onUnavailable;
             this.onLocalRemoval = onLocalRemoval;
             this.statusChanged = false;

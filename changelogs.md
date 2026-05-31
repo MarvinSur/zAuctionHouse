@@ -1,4 +1,10 @@
-# 4.0.0.8 (unreleased)
+# 4.0.0.8
+
+- **Fixed** Critical item duplication in multi-server (Redis) setups - when a player removed a selling item via the selling inventory, the item was correctly given to the player and marked as `DELETED` in the database, but other servers received a generic `LISTED` removal message and incorrectly recreated the item in their `EXPIRED` cache, allowing it to be claimed a second time on another server
+- **Fixed** `ItemRepository.select(int id)` not filtering `DELETED` items - single-item database queries returned items already marked as `DELETED`, while the bulk `select()` method correctly excluded them. This allowed the Redis `ItemRemovedListener` to reload deleted items and re-add them to cache
+- **Added** `destinationStorageType` to cluster bridge `removeItem` method - the `ItemRemovedMessage` now includes the exact destination storage type (`DELETED` or `EXPIRED`) so other servers know exactly what happened instead of guessing. Backward compatible via a `default` method on `AuctionClusterBridge`
+- **Fixed** `ItemRemovedListener` (Redis addon) rewritten with defense-in-depth - uses the explicit destination from the message first, falls back to database state verification, and never blindly assumes an item should go to `EXPIRED`
+- **Fixed** `CreateOptionsMigration` failing on MySQL with `errno: 150 "Foreign key constraint is incorrectly formed"` - the `player_unique_id` column used `uuid()` type which could produce a different collation than the existing `players` table (especially on MySQL 8.0+ with changed default collation). Changed to `string(36)` to match all other foreign key columns referencing `players.unique_id`
 
 # 4.0.0.7 
 

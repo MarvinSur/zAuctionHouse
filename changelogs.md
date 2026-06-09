@@ -1,3 +1,7 @@
+# 4.0.0.9
+
+- **Fixed** Sales history spamming `Item not found for log ID` warnings in console - logs migrated from V3 are created with `item_id = 0` (no direct mapping to V4 items), causing the history service to log a warning for every V3 entry. The history now filters out logs with invalid item references
+
 # 4.0.0.8
 
 - **Fixed** Critical item duplication in multi-server (Redis) setups - when a player removed a selling item via the selling inventory, the item was correctly given to the player and marked as `DELETED` in the database, but other servers received a generic `LISTED` removal message and incorrectly recreated the item in their `EXPIRED` cache, allowing it to be claimed a second time on another server

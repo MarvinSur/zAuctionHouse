@@ -1,6 +1,8 @@
 # 4.0.0.9
 
-- **Fixed** Sales history spamming `Item not found for log ID` warnings in console - logs migrated from V3 are created with `item_id = 0` (no direct mapping to V4 items), causing the history service to log a warning for every V3 entry. The history now filters out logs with invalid item references
+- **Fixed** Sales history spamming `Item not found for log ID` warnings in console - logs migrated from V3 are created with `item_id = 0` (no direct mapping to V4 items), causing the history service to log a warning for every V3 entry. The history now filters out logs with invalid item references at the SQL level
+- **Added** History configuration in `config.yml` - `history.max-entries` limits the number of history entries displayed per player (default: 500, 0 = unlimited), `history.expire-after-days` hides entries older than the specified number of days (default: 0 = never expire). Useful for servers with large transaction volumes to reduce database load and improve history loading times
+- **Added** Admin log management commands - `/ah admin logs purge <days>` deletes all logs older than the specified number of days, `/ah admin logs player <player>` deletes all logs for a specific player, `/ah admin logs clear-migrated` deletes all V3 migrated logs (entries with `item_id = 0`). All operations run asynchronously and report the number of deleted entries
 
 # 4.0.0.8
 

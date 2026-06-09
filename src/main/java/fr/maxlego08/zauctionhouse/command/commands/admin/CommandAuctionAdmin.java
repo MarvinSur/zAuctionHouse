@@ -26,6 +26,7 @@ public class CommandAuctionAdmin extends VCommand {
         this.addSubCommand(new CommandAuctionAdminReload(plugin));
         this.addSubCommand(new CommandAuctionAdminMigrate(plugin));
         this.addSubCommand(new CommandAuctionAdminOption(plugin));
+        this.addSubCommand(new CommandAuctionAdminLogs(plugin));
     }
 
     @Override

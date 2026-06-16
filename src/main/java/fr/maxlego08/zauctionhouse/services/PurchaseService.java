@@ -8,11 +8,13 @@ import fr.maxlego08.zauctionhouse.api.item.Item;
 import fr.maxlego08.zauctionhouse.api.item.ItemStatus;
 import fr.maxlego08.zauctionhouse.api.item.StorageType;
 import fr.maxlego08.zauctionhouse.api.messages.Message;
+import fr.maxlego08.zauctionhouse.api.tax.TaxType;
 import fr.maxlego08.zauctionhouse.api.services.AuctionPurchaseService;
 import fr.maxlego08.zauctionhouse.api.services.result.PurchaseFailReason;
 import fr.maxlego08.zauctionhouse.api.services.result.PurchaseResult;
 import org.bukkit.entity.Player;
 
+import java.math.BigDecimal;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -39,6 +41,16 @@ public class PurchaseService extends AuctionService implements AuctionPurchaseSe
         var clusterBridge = this.plugin.getAuctionClusterBridge();
         var logger = this.plugin.getLogger();
         var auctionEconomy = item.getAuctionEconomy();
+
+        var price = item.getPrice();
+        var taxConfig = auctionEconomy.getTaxConfiguration();
+        final BigDecimal requiredBalance;
+        if (taxConfig.isEnabled() && taxConfig.getTaxType() == TaxType.CAPITALISM) {
+            var taxResult = auctionEconomy.calculatePurchaseTax(player, price, null);
+            requiredBalance = taxResult.hasTax() ? taxResult.finalPrice() : price;
+        } else {
+            requiredBalance = price;
+        }
 
         var configuration = this.plugin.getConfiguration().getActions().purchased();
         if (configuration.giveItem() && configuration.freeSpace() && !item.canReceiveItem(player)) {
@@ -95,7 +107,7 @@ public class PurchaseService extends AuctionService implements AuctionPurchaseSe
                     item.setStatus(ItemStatus.IS_BEING_PURCHASED);
                     return clusterBridge.notifyItemStatusChange(item, previousStatusHolder.get(), ItemStatus.IS_BEING_PURCHASED)
                             .orTimeout(performanceConfig.notifyStatusChangeTimeoutMs(), TimeUnit.MILLISECONDS)
-                            .thenCompose(v -> auctionEconomy.has(player.getUniqueId(), item.getPrice()));
+                            .thenCompose(v -> auctionEconomy.has(player.getUniqueId(), requiredBalance));
 
                 }).thenCompose(hasMoney -> {
 
@@ -113,11 +125,15 @@ public class PurchaseService extends AuctionService implements AuctionPurchaseSe
                                 });
                     }
 
-                    // Insufficient funds - unlock and notify
+                    // Insufficient funds - unlock, restore status, and notify
                     message(this.plugin, player, Message.NOT_ENOUGH_MONEY);
                     resultHolder.set(PurchaseResult.failure("Insufficient funds", PurchaseFailReason.INSUFFICIENT_FUNDS));
-                    return clusterBridge.unlockItem(item, token, StorageType.LISTED)
+                    var previousStatus = previousStatusHolder.get();
+                    item.setStatus(previousStatus);
+                    return clusterBridge.notifyItemStatusChange(item, ItemStatus.IS_BEING_PURCHASED, previousStatus)
                             .orTimeout(performanceConfig.unlockItemTimeoutMs(), TimeUnit.MILLISECONDS)
+                            .thenCompose(v -> clusterBridge.unlockItem(item, token, StorageType.LISTED)
+                                    .orTimeout(performanceConfig.unlockItemTimeoutMs(), TimeUnit.MILLISECONDS))
                             .thenApply(v -> resultHolder.get());
 
                 }).exceptionally(e -> {

@@ -12,6 +12,7 @@ import fr.maxlego08.zauctionhouse.api.item.ItemStatus;
 import fr.maxlego08.zauctionhouse.api.item.StorageType;
 import fr.maxlego08.zauctionhouse.api.item.items.AuctionItem;
 import fr.maxlego08.zauctionhouse.api.messages.Message;
+import fr.maxlego08.zauctionhouse.api.tax.TaxType;
 import fr.maxlego08.zauctionhouse.api.utils.IntList;
 import fr.maxlego08.zauctionhouse.api.utils.Permission;
 import org.bukkit.entity.Player;
@@ -21,6 +22,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.jspecify.annotations.NonNull;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -172,7 +174,17 @@ public class ListedItemsButton extends PaginateButton {
             return;
         }
 
-        economy.has(player.getUniqueId(), item.getPrice()).whenComplete((hasMoney, throwable) -> {
+        var price = item.getPrice();
+        var taxConfig = economy.getTaxConfiguration();
+        final BigDecimal requiredBalance;
+        if (taxConfig.isEnabled() && taxConfig.getTaxType() == TaxType.CAPITALISM) {
+            var taxResult = economy.calculatePurchaseTax(player, price, null);
+            requiredBalance = taxResult.hasTax() ? taxResult.finalPrice() : price;
+        } else {
+            requiredBalance = price;
+        }
+
+        economy.has(player.getUniqueId(), requiredBalance).whenComplete((hasMoney, throwable) -> {
 
             if (throwable != null) {
                 this.plugin.getLogger().log(Level.WARNING, "Cannot verify the balance of " + player.getName(), throwable);

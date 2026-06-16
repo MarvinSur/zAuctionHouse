@@ -66,9 +66,13 @@ public class ClaimService extends AuctionService implements AuctionClaimService 
                 BigDecimal economyTotal = economyTransactions.stream().map(TransactionDTO::value).filter(v -> v.compareTo(BigDecimal.ZERO) > 0).reduce(BigDecimal.ZERO, BigDecimal::add);
 
                 if (economyTotal.compareTo(BigDecimal.ZERO) > 0) {
-                    // Check if player is still online before depositing
                     if (player.isOnline()) {
-                        plugin.getScheduler().runAsync(w -> economy.deposit(player.getUniqueId(), economyTotal, depositReason));
+                        try {
+                            economy.deposit(player.getUniqueId(), economyTotal, depositReason);
+                        } catch (Exception e) {
+                            this.plugin.getLogger().severe("Failed to deposit " + economyTotal + " to " + player.getName() + " for economy " + economyName + ": " + e.getMessage());
+                            continue;
+                        }
                         message(this.plugin, player, Message.CLAIM_ECONOMY_SUCCESS, "%amount%", economyManager.format(economy, economyTotal), "%economy%", economy.getDisplayName());
                     }
                     totalClaimed = totalClaimed.add(economyTotal);
@@ -192,7 +196,11 @@ public class ClaimService extends AuctionService implements AuctionClaimService 
                             .reduce(BigDecimal.ZERO, BigDecimal::add);
 
                     if (economyTotal.compareTo(BigDecimal.ZERO) > 0) {
-                        economy.deposit(playerUniqueId, economyTotal, depositReason);
+                        try {
+                            economy.deposit(playerUniqueId, economyTotal, depositReason);
+                        } catch (Exception e) {
+                            this.plugin.getLogger().severe("Failed to deposit " + economyTotal + " to " + playerUniqueId + " for economy " + entry.getKey() + ": " + e.getMessage());
+                        }
                     }
                 }
             }

@@ -46,7 +46,7 @@ public class ListedItemsButton extends PaginateButton {
 
         if (itemIds.isEmpty()) {
             if (this.emptySlot == -1) return;
-            inventoryEngine.addItem(this.emptySlot, getCustomItemStack(player, false, new Placeholders()));
+            inventoryEngine.addItem(isPlayerInventory(), this.emptySlot, getCustomItemStack(player, false, new Placeholders()));
             return;
         }
 
@@ -60,7 +60,7 @@ public class ListedItemsButton extends PaginateButton {
             Item item = pageItems.get(i);
             int slot = slots.get(i);
             var itemStack = item.buildItemStack(player);
-            var button = inventoryEngine.addItem(slot, itemStack);
+            var button = inventoryEngine.addItem(isPlayerInventory(), slot, itemStack);
             if (button != null) {
                 button.setClick(createClick(player, inventoryEngine, slot, item, itemStack));
             }

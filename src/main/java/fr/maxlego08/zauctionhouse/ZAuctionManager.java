@@ -761,8 +761,26 @@ public class ZAuctionManager extends ZUtils implements AuctionManager {
             sellerReceives = price;
         }
 
+        String resolvedSellerName = auctionItem.getSellerName();
+        if (resolvedSellerName == null) {
+            resolvedSellerName = storageManager.getPlayerName(auctionItem.getSellerUniqueId());
+            if (resolvedSellerName != null) {
+                this.plugin.getLogger().info("[ZAH] Resolved missing seller name for UUID "
+                        + auctionItem.getSellerUniqueId() + " -> " + resolvedSellerName
+                        + " (cross-server purchase, item " + auctionItem.getId() + ")");
+            } else {
+                
+                resolvedSellerName = auctionItem.getSellerUniqueId().toString();
+                this.plugin.getLogger().warning("[ZAH] Could not resolve seller name for UUID "
+                        + auctionItem.getSellerUniqueId() + " (item " + auctionItem.getId()
+                        + "). Using UUID string as fallback. Check that all servers share"
+                        + " the same MySQL database and that upsertPlayer is being called.");
+            }
+        }
+        final String sellerName = resolvedSellerName;
+
         // On retire l'argent de l'acheteur
-        auctionEconomy.withdraw(player.getUniqueId(), buyerPays, args(auctionEconomy.getWithdrawReason(), "%seller%", auctionItem.getSellerName(), "%items%", items));
+        auctionEconomy.withdraw(player.getUniqueId(), buyerPays, args(auctionEconomy.getWithdrawReason(), "%seller%", sellerName, "%items%", items));
 
         // On donne l'argent au vendeur
         TransactionStatus transactionStatus;
@@ -801,11 +819,11 @@ public class ZAuctionManager extends ZUtils implements AuctionManager {
         if (seller.isOnline()) {
             var sellerPlayer = seller.getPlayer();
             if (sellerPlayer != null) {
-                message(this.plugin, sellerPlayer, Message.ITEM_BOUGHT_SELLER, "%items%", itemsDisplay, "%price%", economyManager.format(auctionEconomy, sellerReceives), "%seller%", auctionItem.getSellerName(), "%buyer%", player.getName());
+                message(this.plugin, sellerPlayer, Message.ITEM_BOUGHT_SELLER, "%items%", itemsDisplay, "%price%", economyManager.format(auctionEconomy, sellerReceives), "%seller%", sellerName, "%buyer%", player.getName());
             }
         }
 
-        message(player, Message.ITEM_BOUGHT_BUYER, "%items%", itemsDisplay, "%price%", economyManager.format(auctionEconomy, buyerPays), "%seller%", auctionItem.getSellerName(), "%buyer%", player.getName());
+        message(player, Message.ITEM_BOUGHT_BUYER, "%items%", itemsDisplay, "%price%", economyManager.format(auctionEconomy, buyerPays), "%seller%", sellerName, "%buyer%", player.getName());
 
         auctionItem.setBuyer(player);
         auctionItem.setStatus(ItemStatus.PURCHASED);

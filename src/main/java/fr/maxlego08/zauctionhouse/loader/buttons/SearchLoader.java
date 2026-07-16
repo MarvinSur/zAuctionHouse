@@ -19,6 +19,8 @@ public class SearchLoader extends ButtonLoader {
     @Override
     public Button load(YamlConfiguration configuration, String path, DefaultButtonValue defaultButtonValue) {
         String noneValue = configuration.getString(path + "none-value", "None");
-        return new SearchButton(this.plugin, noneValue);
+        String activeValue = configuration.getString(path + "active-value", "true");
+        String inactiveValue = configuration.getString(path + "inactive-value", "false");
+        return new SearchButton(this.plugin, noneValue, activeValue, inactiveValue);
     }
 }

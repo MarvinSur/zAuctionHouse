@@ -65,7 +65,7 @@ allprojects {
     dependencies {
         compileOnly("io.papermc.paper:paper-api:1.21.10-R0.1-SNAPSHOT")
         compileOnly("me.clip:placeholderapi:2.11.6")
-        compileOnly("fr.maxlego08.menu:zmenu-api:1.1.1.0")
+        compileOnly("fr.maxlego08.menu:zmenu-api:1.1.1.6")
 
         implementation("fr.maxlego08.sarah:sarah:1.23")
         implementation("com.tcoded:FoliaLib:0.5.1")

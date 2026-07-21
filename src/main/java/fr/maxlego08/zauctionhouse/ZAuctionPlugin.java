@@ -337,6 +337,7 @@ public class ZAuctionPlugin extends JavaPlugin implements AuctionPlugin {
         this.migrationRegistry.register(new V3MigrationProvider());
         this.registerOptionalMigrationProvider("fr.maxlego08.zauctionhouse.hooks.zelauction.ZelAuctionMigrationProvider", "ZelAuction");
         this.registerOptionalMigrationProvider("fr.maxlego08.zauctionhouse.hooks.donutauction.DonutAuctionMigrationProvider", "DonutAuction");
+        this.registerOptionalMigrationProvider("fr.maxlego08.zauctionhouse.hooks.crazyauctions.CrazyAuctionsMigrationProvider", "CrazyAuctions");
     }
 
     /**
